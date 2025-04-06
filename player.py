@@ -6,4 +6,20 @@ class Player():
         self._strength = strength
 
     def print_stats(self):
-        print(f"Name: {self._name}\n  health: {self._current_health}/{self._max_health}\n  strength: {self._strength}")
+        print(f"Name: {self._name}\n  {self._health_progress_bar()}\n  strength: {self._strength}")
+
+    def _health_progress_bar(self):
+        SCALE = 20
+        percent_health = (self._current_health / self._max_health)
+        health_scaled = int(percent_health * SCALE)
+
+        lost_health_val = SCALE - health_scaled
+        remaining_health_val = SCALE - lost_health_val
+
+        lost_health = "-" * lost_health_val
+        remaining_health = "#" * remaining_health_val
+        return f"{lost_health}{remaining_health} ({int(percent_health * 100)}%)"
+
+    def reduce_health(self, val):
+        self._current_health -= val
+
