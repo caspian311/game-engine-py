@@ -12,26 +12,17 @@ def main():
     player1.print_stats()
     player2.print_stats()
 
-    print("===Round 1===")
+    print()
 
-    game_engine.attack(player1, player2)
+    for x in range(3):
+        print(f"===Round {x + 1}===")
 
-    player1.print_stats()
-    player2.print_stats()
+        game_engine.attack(player1, player2)
 
-    print("===Round 2===")
+        player1.print_stats()
+        player2.print_stats()
 
-    game_engine.attack(player1, player2)
-
-    player1.print_stats()
-    player2.print_stats()
-
-    print("===Round 3===")
-
-    game_engine.attack(player1, player2)
-
-    player1.print_stats()
-    player2.print_stats()
+        print()
 
 
 if __name__ == "__main__": main()
