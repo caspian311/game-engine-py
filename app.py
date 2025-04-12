@@ -1,20 +1,19 @@
 from game_engine import GameEngine
 from player import Player 
 from player_generator import PlayerGenerator
+from console_manager import ConsoleManager
 
 def main():
     name = input("What's your name? ")
 
     game_engine = GameEngine()
+    console_manager = ConsoleManager(game_engine)
     player1 = PlayerGenerator.generate_player(name)
     player2 = PlayerGenerator.generate_player()
+    game_engine.add_player(player1)
+    game_engine.add_player(player2)
 
-    print("======Initial======")
-
-    player1.print_stats()
-    player2.print_stats()
-
-    print()
+    console_manager.start_game()
 
     print("======FIGHT!======")
 
@@ -40,8 +39,8 @@ def main():
 
         game_engine.attack(player2, player1)
 
-        player1.print_stats()
-        player2.print_stats()
+        console_manager.print_stats(player1)
+        console_manager.print_stats(player2)
 
         print()
 

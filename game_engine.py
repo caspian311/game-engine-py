@@ -3,6 +3,15 @@ import random
 class GameEngine():
     MIN_ATTACK_DAMAGE = 1
 
+    def __init__(self):
+        self._players = []
+
+    def add_player(self, player):
+        self._players.append(player)
+
+    def players(self):
+        return self._players
+
     def attack(self, player1, player2):
         damage_delt = random.randint(GameEngine.MIN_ATTACK_DAMAGE, player1.strength())
 
