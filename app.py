@@ -7,12 +7,14 @@ def main():
     player1 = PlayerGenerator.generate_player()
     player2 = PlayerGenerator.generate_player()
 
-    print("===Initial===")
+    print("======Initial======")
 
     player1.print_stats()
     player2.print_stats()
 
     print()
+
+    print("======FIGHT!======")
 
     for x in range(3):
         print(f"===Round {x + 1}===")
