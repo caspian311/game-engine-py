@@ -1,31 +1,49 @@
 from game_engine import GameEngine
 from player import Player 
 from player_generator import PlayerGenerator
+from console_manager import ConsoleManager
 
-def main():
-    game_engine = GameEngine()
-    player1 = PlayerGenerator.generate_player()
-    player2 = PlayerGenerator.generate_player()
+class App():
+    def __init__(self):
+        self._game_engine = GameEngine()
+        self._console_manager = ConsoleManager(self._game_engine)
 
-    print("======Initial======")
+    def main(self):
+        name = input("What's your name? ")
 
-    player1.print_stats()
-    player2.print_stats()
+        user = PlayerGenerator.generate_player(name)
+        player2 = PlayerGenerator.generate_player()
 
-    print()
+        self._game_engine.add_player(user)
+        self._game_engine.add_npc(player2)
 
-    print("======FIGHT!======")
+        self._console_manager.start_game()
 
-    for x in range(3):
-        print(f"===Round {x + 1}===")
+        self._console_manager.start_fight()
 
-        game_engine.attack(player1, player2)
-        game_engine.attack(player2, player1)
+        for x in range(3):
+            self._console_manager.start_round(x)
 
-        player1.print_stats()
-        player2.print_stats()
+            self._user_action(user, player2)
 
-        print()
+            self._npc_action(user)
 
+            self._console_manager.print_all_stats()
 
-if __name__ == "__main__": main()
+    def _user_action(self, user, player2):
+        action = self._console_manager.prompt_for_user_action()
+        match action:
+            case "a":
+                self._game_engine.attack(user, player2)
+            case "d":
+                user.defend()
+            case "h":
+                self._game_engine.heal(user)
+            case _:
+                self._console_manager.invalid_option_alert()
+
+    def _npc_action(self, user):
+        for player in self._game_engine.all_npcs(): 
+            self._game_engine.attack(player, user)
+
+if __name__ == "__main__": App().main()
