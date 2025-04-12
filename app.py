@@ -20,6 +20,7 @@ def main():
         print(f"===Round {x + 1}===")
 
         game_engine.attack(player1, player2)
+        game_engine.attack(player2, player1)
 
         player1.print_stats()
         player2.print_stats()
