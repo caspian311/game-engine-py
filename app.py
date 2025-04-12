@@ -3,46 +3,47 @@ from player import Player
 from player_generator import PlayerGenerator
 from console_manager import ConsoleManager
 
-def main():
-    name = input("What's your name? ")
+class App():
+    def __init__(self):
+        self._game_engine = GameEngine()
+        self._console_manager = ConsoleManager(self._game_engine)
 
-    game_engine = GameEngine()
-    console_manager = ConsoleManager(game_engine)
-    player1 = PlayerGenerator.generate_player(name)
-    player2 = PlayerGenerator.generate_player()
-    game_engine.add_player(player1)
-    game_engine.add_player(player2)
+    def main(self):
+        name = input("What's your name? ")
 
-    console_manager.start_game()
+        user = PlayerGenerator.generate_player(name)
+        player2 = PlayerGenerator.generate_player()
 
-    print("======FIGHT!======")
+        self._game_engine.add_player(user)
+        self._game_engine.add_npc(player2)
 
-    for x in range(3):
-        print(f"===Round {x + 1}===")
+        self._console_manager.start_game()
 
-        print("Options:")
-        print("  Attack: a")
-        print("  Defend: d")
-        print("  Heal: h")
+        self._console_manager.start_fight()
 
-        action = input("What will you do? ")
-        print(f"you chose {action}!")
+        for x in range(3):
+            self._console_manager.start_round(x)
+
+            self._user_action(user, player2)
+
+            self._npc_action(user)
+
+            self._console_manager.print_all_stats()
+
+    def _user_action(self, user, player2):
+        action = self._console_manager.prompt_for_user_action()
         match action:
             case "a":
-                game_engine.attack(player1, player2)
+                self._game_engine.attack(user, player2)
             case "d":
-                player1.defend()
+                user.defend()
             case "h":
-                game_engine.heal(player1, 2)
+                self._game_engine.heal(user)
             case _:
-                print("That's not a valid option!")
+                self._console_manager.invalid_option_alert()
 
-        game_engine.attack(player2, player1)
+    def _npc_action(self, user):
+        for player in self._game_engine.all_npcs(): 
+            self._game_engine.attack(player, user)
 
-        console_manager.print_stats(player1)
-        console_manager.print_stats(player2)
-
-        print()
-
-
-if __name__ == "__main__": main()
+if __name__ == "__main__": App().main()
