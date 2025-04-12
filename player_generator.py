@@ -11,7 +11,7 @@ class PlayerGenerator():
     MAX_STRENGTH = 10
 
     def generate_player():
-        name = fake.name()
+        name = fake.first_name()
         max_health = random.randint(PlayerGenerator.MIN_HEALTH, PlayerGenerator.MAX_HEALTH)
         strength = random.randint(PlayerGenerator.MIN_STRENGTH, PlayerGenerator.MAX_STRENGTH)
         return Player(name, max_health, strength)

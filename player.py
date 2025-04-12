@@ -5,6 +5,12 @@ class Player():
         self._current_health = max_health
         self._strength = strength
 
+    def strength(self):
+        return self._strength
+
+    def name(self):
+        return self._name
+
     def print_stats(self):
         print(f"Name: {self._name} ({self._strength}) {self._health_progress_bar(20)} ({self._current_health}/{self._max_health})")
 
