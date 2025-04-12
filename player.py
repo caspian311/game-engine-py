@@ -4,6 +4,7 @@ class Player():
         self._max_health = max_health
         self._current_health = max_health
         self._strength = strength
+        self._is_defending = False
 
     def strength(self):
         return self._strength
@@ -28,5 +29,15 @@ class Player():
         return f"{lost_health}{remaining_health}"
 
     def reduce_health(self, val):
-        self._current_health -= val
+        self._current_health -= val if not self._is_defending else val / 2
+        self._is_defending = False
+
+    def increase_health(self, val):
+        self._current_health += val
+
+    def defend(self):
+        self._is_defending = True
+
+    def is_dead(self):
+        return self._current_health == 0
 

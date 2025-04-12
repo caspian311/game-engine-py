@@ -7,5 +7,8 @@ class GameEngine():
         damage_delt = random.randint(GameEngine.MIN_ATTACK_DAMAGE, player1.strength())
 
         print(f"{player1.name()} attacks {player2.name()} and does {damage_delt} damage!")
-        player1.reduce_health(damage_delt)
+        player2.reduce_health(damage_delt)
 
+    def heal(self, player, amount):
+        print(f"{player.name()} heals for {amount} health!")
+        player.increase_health(amount)
