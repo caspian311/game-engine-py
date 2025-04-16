@@ -10,6 +10,8 @@ class UserPlayer(Player):
         match action:
             case "a":
                 GameEngine.attack(self, target)
+            case "m":
+                GameEngine.magic_attack(self, target)
             case "d":
                 self.defend()
             case "h":

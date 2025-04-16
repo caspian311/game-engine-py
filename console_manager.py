@@ -48,6 +48,7 @@ class ConsoleManager():
     def prompt_for_user_action():
         print("Options:")
         print("  Attack: a")
+        print("  Magic: m")
         print("  Defend: d")
         print("  Heal: h")
 
