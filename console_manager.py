@@ -1,24 +1,13 @@
 
 class ConsoleManager():
-    def __init__(self, game_engine):
-        self._game_engine = game_engine
-
-    def start_game(self):
+    def start_game():
         print("======Initial======")
-
-        for player in self._game_engine.all_players():
-            self.print_stats(player)
-
         print()
 
-    def print_all_stats(self):
-        for player in self._game_engine.all_players():
-            self.print_stats(player)
+    def print_stats(player):
+        print(f"Name: {player.name()} ({player.strength()}) {ConsoleManager._health_progress_bar(player, 20)} ({player.current_health()}/{player.max_health()})")
 
-    def print_stats(self, player):
-        print(f"Name: {player.name()} ({player.strength()}) {self._health_progress_bar(player, 20)} ({player.current_health()}/{player.max_health()})")
-
-    def _health_progress_bar(self, player, scale):
+    def _health_progress_bar(player, scale):
         percent_health_remaining = (player._current_health / player._max_health)
         health_scaled = int(percent_health_remaining * scale)
 
@@ -32,19 +21,34 @@ class ConsoleManager():
         return f"{lost_health}{remaining_health}"
 
 
-    def start_fight(self):
+    def start_fight():
         print("======FIGHT!======")
 
-    def start_round(self, x):
+    def player_won():
+        print("=============================")
+        print("===========YOU WIN!==========")
+        print("=============================")
+
+    def player_lost():
+        print("=============================")
+        print("==========YOU LOST!==========")
+        print("=============================")
+
+    def start_round(x):
         print()
         print(f"===Round {x + 1}===")
 
-    def invalid_option_alert(self):
+    def invalid_option_alert():
         print("That's not a valid option!")
 
-    def prompt_for_user_action(self):
+    def prompt_for_user_name():
+        name = input("What's your name? ")
+        return name
+
+    def prompt_for_user_action():
         print("Options:")
         print("  Attack: a")
+        print("  Magic: m")
         print("  Defend: d")
         print("  Heal: h")
 
