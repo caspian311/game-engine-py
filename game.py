@@ -20,7 +20,7 @@ class Game():
         return self.player_lost() or self.player_won()
 
     def player_lost(self):
-        return self._user_player.is_dead()
+        return self._user_player.is_dead() if self._user_player else True
 
     def player_won(self):
         return len(self.remaining_npcs()) == 0
