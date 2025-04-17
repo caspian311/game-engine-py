@@ -6,7 +6,9 @@ class GameEngine():
     HEAL_AMOUNT = 2
 
     def attack(attacker, defender):
-        damage_delt = random.randint(GameEngine.MIN_ATTACK_DAMAGE, attacker.strength())
+        min = GameEngine.MIN_ATTACK_DAMAGE
+        max = attacker.strength()
+        damage_delt = random.randint(min, max)
 
         print(f"{attacker.name()} attacks {defender.name()} and does {damage_delt} damage!")
         defender.reduce_health(damage_delt)
@@ -17,7 +19,9 @@ class GameEngine():
         player.increase_health(amount)
 
     def magic_attack(attacker, defender):
-        damage_delt = random.randint(GameEngine.MIN_MAGIC_ATTACK_DAMAGE, attacker.strength())
+        min = GameEngine.MIN_MAGIC_ATTACK_DAMAGE
+        max = GameEngine.MIN_MAGIC_ATTACK_DAMAGE + attacker.strength()
+        damage_delt = random.randint(min, max)
 
         print(f"{attacker.name()} attacks {defender.name()} with MAGIC and does {damage_delt} damage!")
         defender.reduce_health(damage_delt)
