@@ -30,14 +30,14 @@ class Game():
 
     def play(self):
         ConsoleManager.start_game()
+        self._print_player_stats()
 
         for index, turn in enumerate(self._create_turns()):
             ConsoleManager.start_round(index)
 
             turn.play(self)
 
-            for player in self.all_players():
-                ConsoleManager.print_stats(player)
+            self._print_player_stats()
 
         if self.player_won():
             ConsoleManager.player_won() 
@@ -46,6 +46,10 @@ class Game():
 
     def _create_turns(self):
         return TurnIterator(self)
+
+    def _print_player_stats(self):
+        for player in self.all_players():
+            ConsoleManager.print_stats(player)
 
 class Turn:
     def __init__(self, player):
