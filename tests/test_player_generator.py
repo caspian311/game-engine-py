@@ -1,10 +1,7 @@
 import mock
 
-from game import Game
 from console_manager import ConsoleManager
 from player_generator import PlayerGenerator
-from player import Player
-from user_player import UserPlayer
 
 def user():
     return PlayerGenerator.generate_user_player()
