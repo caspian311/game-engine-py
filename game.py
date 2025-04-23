@@ -30,24 +30,28 @@ class Game():
 
     def play(self):
         ConsoleManager.start_game()
+        self._print_player_stats()
 
         for index, turn in enumerate(self._create_turns()):
             ConsoleManager.start_round(index)
 
             turn.play(self)
 
-            for player in self.all_players():
-                ConsoleManager.print_stats(player)
+            self._print_player_stats()
 
         if self.player_won():
-            ConsoleManager.player_won() 
+            ConsoleManager.player_won()
         if self.player_lost():
-            ConsoleManager.player_lost() 
+            ConsoleManager.player_lost()
 
     def _create_turns(self):
         return TurnIterator(self)
 
-class Turn:
+    def _print_player_stats(self):
+        for player in self.all_players():
+            ConsoleManager.print_stats(player)
+
+class Turn: # pylint: disable=too-few-public-methods
     def __init__(self, player):
         self._player = player
 
@@ -74,5 +78,3 @@ class TurnIterator:
 
         current_player = self._players[self._current]
         return Turn(current_player)
-
-

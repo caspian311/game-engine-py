@@ -1,26 +1,44 @@
 import random
 from faker import Factory
-fake = Factory.create()
 
 from console_manager import ConsoleManager
 from npc_player import NpcPlayer
 from user_player import UserPlayer
 
+fake = Factory.create()
+
 class PlayerGenerator():
     MIN_HEALTH = 50
     MAX_HEALTH = 100
-    MIN_STRENGTH = 1
-    MAX_STRENGTH = 10
+    MIN_ATTACK = 1
+    MAX_ATTACK = 10
+    MIN_MAGIC = 5
+    MAX_MAGIC = 20
+    MIN_DEFENSE = 1
+    MAX_DEFENSE = 5
+    MIN_CONSTITUTION = 1
+    MAX_CONSTITUTION = 5
 
-    def generate_user_player():
+    @classmethod
+    def generate_user_player(cls):
         name = ConsoleManager.prompt_for_user_name()
-        max_health = random.randint(PlayerGenerator.MIN_HEALTH, PlayerGenerator.MAX_HEALTH)
-        strength = random.randint(PlayerGenerator.MIN_STRENGTH, PlayerGenerator.MAX_STRENGTH)
-        return UserPlayer(name, max_health, strength)
+        max_health = random.randint(
+                PlayerGenerator.MIN_HEALTH, PlayerGenerator.MAX_HEALTH)
+        attack = random.randint(PlayerGenerator.MIN_ATTACK, PlayerGenerator.MAX_ATTACK)
+        magic = random.randint(PlayerGenerator.MIN_MAGIC, PlayerGenerator.MAX_MAGIC)
+        defense = random.randint(PlayerGenerator.MIN_DEFENSE, PlayerGenerator.MAX_DEFENSE)
+        constitution = random.randint(
+                PlayerGenerator.MIN_CONSTITUTION, PlayerGenerator.MAX_CONSTITUTION)
+        return UserPlayer(name, max_health, attack, magic, defense, constitution)
 
-    def generate_npc_player():
-        name = fake.first_name()
-        max_health = random.randint(PlayerGenerator.MIN_HEALTH, PlayerGenerator.MAX_HEALTH)
-        strength = random.randint(PlayerGenerator.MIN_STRENGTH, PlayerGenerator.MAX_STRENGTH)
-        return NpcPlayer(name, max_health, strength)
-
+    @classmethod
+    def generate_npc_player(cls):
+        name = fake.first_name() # pylint: disable=no-member
+        max_health = random.randint(
+                PlayerGenerator.MIN_HEALTH, PlayerGenerator.MAX_HEALTH)
+        attack = random.randint(PlayerGenerator.MIN_ATTACK, PlayerGenerator.MAX_ATTACK)
+        magic = random.randint(PlayerGenerator.MIN_MAGIC, PlayerGenerator.MAX_MAGIC)
+        defense = random.randint(PlayerGenerator.MIN_DEFENSE, PlayerGenerator.MAX_DEFENSE)
+        constitution = random.randint(
+                PlayerGenerator.MIN_CONSTITUTION, PlayerGenerator.MAX_CONSTITUTION)
+        return NpcPlayer(name, max_health, attack, magic, defense, constitution)
