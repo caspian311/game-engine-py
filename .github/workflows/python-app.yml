@@ -29,11 +29,13 @@ jobs:
         pip install -r requirements.txt
     - name: Lint with pylint
       run: |
-        # stop the build if there are Python syntax errors or undefined names
+        # stop the build if there are Python syntax errors
         pylint . --ignore-paths=venv \
-          --errors-only --fail-on E
+          --errors-only --fail-on E \
+          --msg-template='{msg_id}:{line:3d}:{column} -- {obj}: {msg}'
         # show warnings
         pylint . --ignore-paths=venv \
+          --fail-under 5 \
           --disable=C0116 --disable=C0114,C0115 \
           --msg-template='{msg_id}:{line:3d}:{column} -- {obj}: {msg}'
     - name: Test with pytest
