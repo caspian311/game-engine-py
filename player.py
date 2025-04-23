@@ -32,8 +32,7 @@ class Player():
 
     def reduce_health(self, val):
         self._current_health -= val if not self._is_defending else val / 2
-        if self._current_health < 0:
-            self._current_health = 0
+        self._current_health = max(self._current_health, 0)
         self._is_defending = False
 
     def increase_health(self, val):
@@ -45,7 +44,7 @@ class Player():
     def is_dead(self):
         return self._current_health == 0
 
-    def take_turn(self, target):
+    def take_turn(self, game):
         pass
 
     def is_user(self):

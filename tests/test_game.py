@@ -31,12 +31,12 @@ def test_all_players_with_a_mix_of_players():
 def test_is_over_when_no_players():
     game = Game()
 
-    assert game.is_over() == True
+    assert game.is_over() is True
 
 def test_player_lost_when_no_players():
     game = Game()
 
-    assert game.player_lost() == True
+    assert game.player_lost() is True
 
 def test_player_lost_when_alive_player():
     game = Game()
@@ -44,7 +44,7 @@ def test_player_lost_when_alive_player():
     with mock.patch.object(ConsoleManager, 'prompt_for_user_name'):
         game.add_player(PlayerGenerator.generate_user_player())
 
-    assert game.player_lost() == False
+    assert game.player_lost() is False
 
 def test_player_won_when_alive_player_and_no_npcs():
     game = Game()
@@ -52,7 +52,7 @@ def test_player_won_when_alive_player_and_no_npcs():
     with mock.patch.object(ConsoleManager, 'prompt_for_user_name'):
         game.add_player(PlayerGenerator.generate_user_player())
 
-    assert game.player_won() == True
+    assert game.player_won() is True
 
 def test_player_won_when_alive_player_and_living_npcs():
     game = Game()
@@ -62,7 +62,7 @@ def test_player_won_when_alive_player_and_living_npcs():
     game.add_player(weak_player())
     game.add_player(strong_player())
 
-    assert game.player_won() == False
+    assert game.player_won() is False
 
 
 def test_player_won_when_alive_player_and_all_npcs_dead():
@@ -73,7 +73,7 @@ def test_player_won_when_alive_player_and_all_npcs_dead():
     game.add_player(blank_player())
     game.add_player(blank_player())
 
-    assert game.player_won() == True
+    assert game.player_won() is True
 
 
 def test_remaining_npcs_when_no_npcs():
@@ -102,7 +102,7 @@ def test_remaining_npcs_when_multiple_npcs_some_dead():
 def test_user_player_when_no_user():
     game = Game()
 
-    assert game.user_player() == None
+    assert game.user_player() is None
 
 def test_user_player_when_just_npcs():
     game = Game()
@@ -110,7 +110,7 @@ def test_user_player_when_just_npcs():
     game.add_player(weak_player())
     game.add_player(weak_player())
 
-    assert game.user_player() == None
+    assert game.user_player() is None
 
 
 def test_user_player_when_user_player():
@@ -146,7 +146,9 @@ def test_user_player_when_user_player_dead():
 @mock.patch.object(ConsoleManager, 'print_stats')
 @mock.patch.object(ConsoleManager, 'start_round')
 @mock.patch.object(ConsoleManager, 'prompt_for_user_action')
-def test_initially_game_is_not_over(start_game, player_won, player_lost, print_stats, start_round, prompt_for_user_action):
+def test_initially_game_is_not_over(_start_game, _player_won,
+                                    _player_lost, _print_stats,
+                                    _start_round, _prompt_for_user_action):
     game = Game()
 
     game.add_player(blank_player())
@@ -154,7 +156,7 @@ def test_initially_game_is_not_over(start_game, player_won, player_lost, print_s
 
     game.play()
 
-    assert game.is_over() == True
+    assert game.is_over() is True
 
 def weak_player():
     return Player('', 1, 0, 0, 0, 0)

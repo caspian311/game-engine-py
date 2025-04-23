@@ -97,4 +97,3 @@ def test_user_player_has_more_than_min_constitution(_):
     assert user().constitution() >= PlayerGenerator.MIN_CONSTITUTION
     assert user().constitution() >= PlayerGenerator.MIN_CONSTITUTION
     assert user().constitution() >= PlayerGenerator.MIN_CONSTITUTION
-

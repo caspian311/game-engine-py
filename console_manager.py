@@ -1,14 +1,20 @@
-
 class ConsoleManager():
-    def start_game():
+    @classmethod
+    def start_game(cls):
         print("======Initial======")
         print()
 
-    def print_stats(player):
-        print(f"Name: {player.name()} ({player.strength()}) {ConsoleManager._health_progress_bar(player, 20)} ({player.current_health()}/{player.max_health()})")
+    @classmethod
+    def print_stats(cls, player):
+        print((
+            f"Name: {player.name()} ({player.attack()}) "
+            f"{cls._health_progress_bar(player, 20)} "
+            f"({player.current_health()}/{player.max_health()})"
+            ))
 
-    def _health_progress_bar(player, scale):
-        percent_health_remaining = (player._current_health / player._max_health)
+    @classmethod
+    def _health_progress_bar(cls, player, scale):
+        percent_health_remaining = (player.current_health() / player.max_health())
         health_scaled = int(percent_health_remaining * scale)
 
         lost_health_val = scale - health_scaled
@@ -16,36 +22,41 @@ class ConsoleManager():
 
         lost_health = "-" * lost_health_val
         remaining_health = "#" * remaining_health_val
-        percent_health = int(percent_health_remaining * 100)
 
         return f"{lost_health}{remaining_health}"
 
-
-    def start_fight():
+    @classmethod
+    def start_fight(cls):
         print("======FIGHT!======")
 
-    def player_won():
+    @classmethod
+    def player_won(cls):
         print("=============================")
         print("===========YOU WIN!==========")
         print("=============================")
 
-    def player_lost():
+    @classmethod
+    def player_lost(cls):
         print("=============================")
         print("==========YOU LOST!==========")
         print("=============================")
 
-    def start_round(x):
+    @classmethod
+    def start_round(cls, x):
         print()
         print(f"===Round {x + 1}===")
 
-    def invalid_option_alert():
+    @classmethod
+    def invalid_option_alert(cls):
         print("That's not a valid option!")
 
-    def prompt_for_user_name():
+    @classmethod
+    def prompt_for_user_name(cls):
         name = input("What's your name? ")
         return name
 
-    def prompt_for_user_action():
+    @classmethod
+    def prompt_for_user_action(cls):
         print("Options:")
         print("  Attack: a")
         print("  Magic: m")
