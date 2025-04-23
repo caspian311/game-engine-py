@@ -16,6 +16,13 @@ def test_npc_player_has_random_name():
     assert len(npc().name()) > 0
     assert len(npc().name()) > 0
 
+def test_npc_player_are_not_users():
+    assert not npc().is_user()
+
+@mock.patch.object(ConsoleManager, 'prompt_for_user_name')
+def test_user_player_are_users(_):
+    assert user().is_user()
+
 def test_npc_player_has_more_than_min_health():
     assert npc().max_health() >= PlayerGenerator.MIN_HEALTH
     assert npc().max_health() >= PlayerGenerator.MIN_HEALTH
