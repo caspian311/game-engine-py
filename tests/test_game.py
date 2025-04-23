@@ -5,6 +5,7 @@ from console_manager import ConsoleManager
 from player_generator import PlayerGenerator
 from player import Player
 from user_player import UserPlayer
+from npc_player import NpcPlayer
 
 def test_all_players_with_no_players():
     game = Game()
@@ -117,13 +118,13 @@ def test_user_player_when_user_player():
 
     game.add_player(weak_user())
 
-    assert game.user_player().name() == "John"
+    assert game.user_player().name() == "Joe"
 
 def test_user_player_when_user_player_with_npcs():
     game = Game()
 
     game.add_player(weak_player())
-    game.add_player(UserPlayer('John', 1, 0, 0))
+    game.add_player(strong_user())
     game.add_player(weak_player())
 
     assert game.user_player().name() == "John"
@@ -133,10 +134,10 @@ def test_user_player_when_user_player_dead():
     game = Game()
 
     game.add_player(weak_player())
-    game.add_player(UserPlayer('John', 0, 0, 0))
+    game.add_player(weak_user())
     game.add_player(weak_player())
 
-    assert game.user_player().name() == "John"
+    assert game.user_player().name() == "Joe"
 
 
 @mock.patch.object(ConsoleManager, 'start_game')
@@ -148,21 +149,24 @@ def test_user_player_when_user_player_dead():
 def test_initially_game_is_not_over(start_game, player_won, player_lost, print_stats, start_round, prompt_for_user_action):
     game = Game()
 
-    game.add_player(Player('', 0, 0, 0))
-    game.add_player(UserPlayer('John', 1, 0, 0))
+    game.add_player(blank_player())
+    game.add_player(weak_user())
 
     game.play()
 
     assert game.is_over() == True
 
 def weak_player():
-    return Player('', 1, 0, 0)
+    return Player('', 1, 0, 0, 0, 0)
 
 def blank_player():
-    return Player('', 0, 0, 0)
+    return Player('', 0, 0, 0, 0, 0)
 
 def weak_user():
-    return UserPlayer('John', 1, 0, 0)
+    return UserPlayer('Joe', 1, 0, 0, 0, 0)
 
 def strong_player():
-    return Player('', 100, 100, 0)
+    return NpcPlayer('John', 100, 100, 100, 5, 5)
+
+def strong_user():
+    return UserPlayer('John', 100, 100, 100, 5, 5)
