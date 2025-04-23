@@ -9,18 +9,18 @@ from user_player import UserPlayer
 class PlayerGenerator():
     MIN_HEALTH = 50
     MAX_HEALTH = 100
-    MIN_STRENGTH = 1
-    MAX_STRENGTH = 10
+    MIN_ATTACK = 1
+    MAX_ATTACK = 10
 
     def generate_user_player():
         name = ConsoleManager.prompt_for_user_name()
         max_health = random.randint(PlayerGenerator.MIN_HEALTH, PlayerGenerator.MAX_HEALTH)
-        strength = random.randint(PlayerGenerator.MIN_STRENGTH, PlayerGenerator.MAX_STRENGTH)
-        return UserPlayer(name, max_health, strength)
+        attack = random.randint(PlayerGenerator.MIN_ATTACK, PlayerGenerator.MAX_ATTACK)
+        return UserPlayer(name, max_health, attack)
 
     def generate_npc_player():
         name = fake.first_name()
         max_health = random.randint(PlayerGenerator.MIN_HEALTH, PlayerGenerator.MAX_HEALTH)
-        strength = random.randint(PlayerGenerator.MIN_STRENGTH, PlayerGenerator.MAX_STRENGTH)
-        return NpcPlayer(name, max_health, strength)
+        attack = random.randint(PlayerGenerator.MIN_ATTACK, PlayerGenerator.MAX_ATTACK)
+        return NpcPlayer(name, max_health, attack)
 

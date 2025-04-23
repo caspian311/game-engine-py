@@ -7,7 +7,7 @@ class GameEngine():
 
     def attack(attacker, defender):
         min = GameEngine.MIN_ATTACK_DAMAGE
-        max = attacker.strength()
+        max = attacker.attack()
         damage_delt = random.randint(min, max)
 
         print(f"{attacker.name()} attacks {defender.name()} and does {damage_delt} damage!")
@@ -20,7 +20,7 @@ class GameEngine():
 
     def magic_attack(attacker, defender):
         min = GameEngine.MIN_MAGIC_ATTACK_DAMAGE
-        max = GameEngine.MIN_MAGIC_ATTACK_DAMAGE + attacker.strength()
+        max = GameEngine.MIN_MAGIC_ATTACK_DAMAGE + attacker.attack()
         damage_delt = random.randint(min, max)
 
         print(f"{attacker.name()} attacks {defender.name()} with MAGIC and does {damage_delt} damage!")

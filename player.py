@@ -1,13 +1,13 @@
 class Player():
-    def __init__(self, name, max_health, strength):
+    def __init__(self, name, max_health, attack):
         self._name = name
         self._max_health = max_health
         self._current_health = max_health
-        self._strength = strength
+        self._attack = attack
         self._is_defending = False
 
-    def strength(self):
-        return self._strength
+    def attack(self):
+        return self._attack
 
     def name(self):
         return self._name
