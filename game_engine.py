@@ -1,4 +1,4 @@
-import random
+from console_manager import ConsoleManager
 
 class GameEngine():
     MIN_ATTACK_DAMAGE = 1
@@ -7,30 +7,20 @@ class GameEngine():
 
     @classmethod
     def attack(cls, attacker, defender):
-        min_val = GameEngine.MIN_ATTACK_DAMAGE
-        max_val = attacker.attack()
-        damage_delt = random.randint(min_val, max_val)
-
-        print((
-            f"{attacker.name()} attacks {defender.name()} "
-            f"and does {damage_delt} damage!"
-            ))
+        damage_delt = attacker.attack() - defender.defense()
         defender.reduce_health(damage_delt)
+
+        ConsoleManager.attack_results(attacker.name(), defender.name(), damage_delt)
 
     @classmethod
     def heal(cls, player):
-        amount = GameEngine.HEAL_AMOUNT
-        print(f"{player.name()} heals for {amount} health!")
-        player.increase_health(amount)
+        player.increase_health(GameEngine.HEAL_AMOUNT)
+
+        ConsoleManager.heal_results(player.name(), GameEngine.HEAL_AMOUNT)
 
     @classmethod
     def magic_attack(cls, attacker, defender):
-        min_val = GameEngine.MIN_MAGIC_ATTACK_DAMAGE
-        max_val = GameEngine.MIN_MAGIC_ATTACK_DAMAGE + attacker.attack()
-        damage_delt = random.randint(min_val, max_val)
+        damage_delt = attacker.magic() - defender.constitution()
 
-        print((
-            f"{attacker.name()} attacks {defender.name()} "
-            f"with MAGIC and does {damage_delt} damage!"
-            ))
         defender.reduce_health(damage_delt)
+        ConsoleManager.magic_attack_results(attacker.name(), defender.name(), damage_delt)

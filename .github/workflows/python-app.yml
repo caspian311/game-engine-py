@@ -36,7 +36,7 @@ jobs:
         # show warnings
         pylint . --ignore-paths=venv \
           --fail-under 5 \
-          --disable=C0116 --disable=C0114,C0115 \
+          --disable=C0116,C0114,C0115 \
           --msg-template='{msg_id}:{line:3d}:{column} -- {obj}: {msg}'
     - name: Test with pytest
       run: |

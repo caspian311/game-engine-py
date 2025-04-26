@@ -159,16 +159,51 @@ def test_initially_game_is_not_over(_start_game, _player_won,
     assert game.is_over() is True
 
 def weak_player():
-    return Player('', 1, 0, 0, 0, 0)
+    p = Player('')
+    p.override_max_health(1)
+    p.override_current_health(1)
+    p.override_attack(0)
+    p.override_magic(0)
+    p.override_defense(0)
+    p.override_constitution(0)
+    return p
 
 def blank_player():
-    return Player('', 0, 0, 0, 0, 0)
+    p = Player('Blank')
+    p.override_max_health(0)
+    p.override_current_health(0)
+    p.override_attack(0)
+    p.override_magic(0)
+    p.override_defense(0)
+    p.override_constitution(0)
+    return p
 
 def weak_user():
-    return UserPlayer('Joe', 1, 0, 0, 0, 0)
+    p = UserPlayer('Joe')
+    p.override_max_health(1)
+    p.override_current_health(1)
+    p.override_attack(0)
+    p.override_magic(0)
+    p.override_defense(0)
+    p.override_constitution(0)
+    return p
 
 def strong_player():
-    return NpcPlayer('John', 100, 100, 100, 5, 5)
+    p = NpcPlayer('John')
+    p.override_max_health(100)
+    p.override_current_health(100)
+    p.override_attack(10)
+    p.override_magic(10)
+    p.override_defense(5)
+    p.override_constitution(5)
+    return p
 
 def strong_user():
-    return UserPlayer('John', 100, 100, 100, 5, 5)
+    p = UserPlayer('John')
+    p.override_max_health(100)
+    p.override_current_health(100)
+    p.override_attack(10)
+    p.override_magic(10)
+    p.override_defense(5)
+    p.override_constitution(5)
+    return p
