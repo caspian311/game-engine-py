@@ -6,7 +6,7 @@ I really haven't thought this one through yet. Just wanted a project to throw co
 
 ### Install Dependencies
 
-So this will install all 3rd party libraries as well as install the app as a library/python egg as well.
+So this will install all 3rd party libraries as well as install the app as a library/python egg as well. So I strongly advise running this in a virtual environment.
 
 ```
 $ pip install -r requirements.txt
