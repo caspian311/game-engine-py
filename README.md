@@ -6,14 +6,19 @@ I really haven't thought this one through yet. Just wanted a project to throw co
 
 ### Install Dependencies
 
+So this will install all 3rd party libraries as well as install the app as a library/python egg as well.
+
 ```
 $ pip install -r requirements.txt
+$ pip install -e .
 ```
 
 ### Run the game
 
+Then, you just run the game which I called `game`. ... That could change later.
+
 ```
-$ python app.py
+$ game
 ```
 
 ## Development Notes
