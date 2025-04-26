@@ -57,3 +57,34 @@ def test_magic_reports_to_console_manager(magic_attack_results):
     GameEngine.magic_attack(attacker, defender)
 
     magic_attack_results.assert_called_once_with("attacker 2", "defender 2", 7)
+
+@mock.patch.object(ConsoleManager, "attack_results")
+def test_attack_when_defending_results_in_half_damage(_):
+    attacker = Player("attacker")
+    attacker.override_attack(10)
+    defender = Player("defender")
+    defender.override_max_health(100)
+    defender.override_current_health(100)
+    defender.override_defense(2)
+
+    defender.defend()
+
+    GameEngine.attack(attacker, defender)
+
+    assert 96 == defender.current_health()
+
+@mock.patch.object(ConsoleManager, "attack_results")
+def test_attack_when_defending_results_in_half_damage_only_once(_):
+    attacker = Player("attacker")
+    attacker.override_attack(10)
+    defender = Player("defender")
+    defender.override_max_health(100)
+    defender.override_current_health(100)
+    defender.override_defense(2)
+
+    defender.defend()
+
+    GameEngine.attack(attacker, defender)
+    GameEngine.attack(attacker, defender)
+
+    assert 88 == defender.current_health()
