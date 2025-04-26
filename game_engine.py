@@ -22,12 +22,7 @@ class GameEngine():
 
     @classmethod
     def magic_attack(cls, attacker, defender):
-        min_val = GameEngine.MIN_MAGIC_ATTACK_DAMAGE
-        max_val = GameEngine.MIN_MAGIC_ATTACK_DAMAGE + attacker.attack()
-        damage_delt = random.randint(min_val, max_val)
+        damage_delt = attacker.magic() - defender.constitution()
 
-        print((
-            f"{attacker.name()} attacks {defender.name()} "
-            f"with MAGIC and does {damage_delt} damage!"
-            ))
         defender.reduce_health(damage_delt)
+        ConsoleManager.magic_attack_results(attacker.name(), defender.name(), damage_delt)

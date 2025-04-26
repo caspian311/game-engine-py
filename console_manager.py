@@ -8,6 +8,13 @@ class ConsoleManager():
         print()
 
     @classmethod
+    def magic_attack_results(cls, attacker, defender, damage_delt):
+        print((
+            f"{attacker} attacks {defender} "
+            f"with MAGIC and does {damage_delt} damage!"
+            ))
+
+    @classmethod
     def start_game(cls):
         print("======Initial======")
         print()
