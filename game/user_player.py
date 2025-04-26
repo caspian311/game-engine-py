@@ -1,6 +1,6 @@
-from game_engine import GameEngine
-from console_manager import ConsoleManager
-from player import Player
+from game.game_engine import GameEngine
+from game.console_manager import ConsoleManager
+from game.player import Player
 
 class UserPlayer(Player):
     def take_turn(self, game):

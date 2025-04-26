@@ -1,11 +1,11 @@
 import mock
 
-from game import Game
-from console_manager import ConsoleManager
-from player_generator import PlayerGenerator
-from player import Player
-from user_player import UserPlayer
-from npc_player import NpcPlayer
+from game.game import Game
+from game.console_manager import ConsoleManager
+from game.player_generator import PlayerGenerator
+from game.player import Player
+from game.user_player import UserPlayer
+from game.npc_player import NpcPlayer
 
 def test_all_players_with_no_players():
     game = Game()

@@ -1,4 +1,4 @@
-from console_manager import ConsoleManager
+from game.console_manager import ConsoleManager
 
 class Game():
     def __init__(self):

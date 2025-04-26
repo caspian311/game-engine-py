@@ -1,7 +1,7 @@
-from game import Game
-from player_generator import PlayerGenerator
+from game.game import Game
+from game.player_generator import PlayerGenerator
 
-if __name__ == "__main__":
+def app():
     game = Game()
     game.add_player(PlayerGenerator.generate_user_player())
     game.add_player(PlayerGenerator.generate_npc_player())

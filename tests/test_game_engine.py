@@ -1,8 +1,8 @@
 import mock
 
-from game_engine import GameEngine
-from player import Player
-from console_manager import ConsoleManager
+from game.game_engine import GameEngine
+from game.player import Player
+from game.console_manager import ConsoleManager
 
 @mock.patch.object(ConsoleManager, "attack_results")
 def test_attack_does_damage_of_attack_and_defense_difference(_):

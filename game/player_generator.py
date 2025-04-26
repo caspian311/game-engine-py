@@ -1,8 +1,8 @@
 from faker import Factory
 
-from console_manager import ConsoleManager
-from npc_player import NpcPlayer
-from user_player import UserPlayer
+from game.console_manager import ConsoleManager
+from game.npc_player import NpcPlayer
+from game.user_player import UserPlayer
 
 fake = Factory.create()
 
