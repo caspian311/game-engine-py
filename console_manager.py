@@ -15,6 +15,10 @@ class ConsoleManager():
             ))
 
     @classmethod
+    def heal_results(cls, player_name, amount):
+        print(f"{player_name} heals for {amount} health!")
+
+    @classmethod
     def start_game(cls):
         print("======Initial======")
         print()

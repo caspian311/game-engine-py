@@ -1,5 +1,3 @@
-import random
-
 from console_manager import ConsoleManager
 
 class GameEngine():
@@ -16,9 +14,9 @@ class GameEngine():
 
     @classmethod
     def heal(cls, player):
-        amount = GameEngine.HEAL_AMOUNT
-        print(f"{player.name()} heals for {amount} health!")
-        player.increase_health(amount)
+        player.increase_health(GameEngine.HEAL_AMOUNT)
+
+        ConsoleManager.heal_results(player.name(), GameEngine.HEAL_AMOUNT)
 
     @classmethod
     def magic_attack(cls, attacker, defender):

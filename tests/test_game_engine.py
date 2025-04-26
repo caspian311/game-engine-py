@@ -88,3 +88,23 @@ def test_attack_when_defending_results_in_half_damage_only_once(_):
     GameEngine.attack(attacker, defender)
 
     assert 88 == defender.current_health()
+
+@mock.patch.object(ConsoleManager, "heal_results")
+def test_heal_raises_health(_):
+    healer = Player("healer 1")
+    healer.override_max_health(100)
+    healer.override_current_health(80)
+
+    GameEngine.heal(healer)
+
+    assert 82 == healer.current_health()
+
+@mock.patch.object(ConsoleManager, "heal_results")
+def test_heal_sends_healing_message(heal_results):
+    healer = Player("healer 1")
+    healer.override_max_health(100)
+    healer.override_current_health(80)
+
+    GameEngine.heal(healer)
+
+    heal_results.assert_called_once_with("healer 1", GameEngine.HEAL_AMOUNT)
