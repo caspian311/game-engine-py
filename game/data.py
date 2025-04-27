@@ -8,5 +8,7 @@ class GameState():
 @dataclass
 class Data():
     state = GameState()
+    user = None
+    npcs = []
 
 DATA = Data()

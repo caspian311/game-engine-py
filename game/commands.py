@@ -2,6 +2,8 @@ from game.game_engine import GameEngine
 from game.logger import log
 from game.data import DATA
 from game.user_player import UserPlayer
+from game.npc_player import NpcPlayer
+from game.logger import log
 
 class Command():
     def execute(self, arguments):
@@ -9,7 +11,10 @@ class Command():
 
 class StartCommand(Command):
     def execute(self, arguments):
-        DATA.state.running = True
+        log("adding npcs!!!!")
+        DATA.npcs.append(NpcPlayer('Goblin 1'))
+        DATA.npcs.append(NpcPlayer('Goblin 2'))
+        log(f"now I have {len(DATA.npcs)} npcs!")
         DATA.state.prompt_for_user = True
 
 class CreateUserCommand(Command):
@@ -17,7 +22,7 @@ class CreateUserCommand(Command):
         player_name = arguments[0]
 
         DATA.user = UserPlayer(player_name)
-        DATA.prompt_for_user = False
+        DATA.state.prompt_for_user = False
 
 class QuitCommand(Command):
     def execute(self, arguments):
@@ -71,6 +76,7 @@ class Commands():
     @classmethod
     def execute(cls, command, arguments):
         if command in cls.all_commands:
+            log(f"executing command: {command} - with {arguments}")
             cls.all_commands[command].execute(arguments)
         else:
             log(f"invalid command received: {command}")
