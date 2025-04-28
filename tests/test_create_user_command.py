@@ -2,7 +2,7 @@ from game.create_user_command import CreateUserCommand
 from game.data import DATA
 
 def test_create_user_command_creates_user():
-    assert None == DATA.user
+    assert None is DATA.user
 
     CreateUserCommand().execute(["test 123"])
 
