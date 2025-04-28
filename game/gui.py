@@ -3,7 +3,8 @@ from cursed import CursedApp, CursedWindow
 
 from game.logger import log
 from game.commands import Commands, CommandProcessor
-from game.data import DATA
+from game.game_monitor import GameMonitor
+from game.data import DATA, GameState
 
 SCREEN_WIDTH, SCREEN_HEIGHT = (240, 55)
 
@@ -14,7 +15,7 @@ class MainWindow(CursedWindow):
 
     @classmethod
     def update(cls):
-        if not DATA.state.running:
+        if DATA.state.run_state == GameState.RUN_STATE_QUITTING:
             cls.trigger('quit')
 
         cls._clear_screen(cls.WIDTH, cls.HEIGHT)
@@ -42,7 +43,7 @@ class UserActionsWindow(CursedWindow):
 
     @classmethod
     def update(cls):
-        if not DATA.state.running:
+        if DATA.state.run_state == GameState.RUN_STATE_QUITTING:
             cls.trigger('quit')
 
         cls._clear_screen(cls.WIDTH, cls.HEIGHT)
@@ -83,13 +84,14 @@ class UserStatsWindow(CursedWindow):
 
     @classmethod
     def update(cls):
-        if not DATA.state.running:
+        if DATA.state.run_state == GameState.RUN_STATE_QUITTING:
             cls.trigger('quit')
 
         cls._clear_screen(cls.WIDTH, cls.HEIGHT)
 
-        if not DATA.state.prompt_for_user:
+        if DATA.state.in_battle:
             cls._show_player_data(DATA.user, 0)
+
             for index, npc in enumerate(DATA.live_npcs()):
                 cls._show_player_data(npc, (index * 2) + 3)
 
@@ -130,11 +132,11 @@ class UserStatsWindow(CursedWindow):
 
 
 def main():
-    thread = Thread(target=CommandProcessor.process)
-    thread.start()
+    command_processor_thread = Thread(target=CommandProcessor.process)
+    command_processor_thread.start()
 
-    CommandProcessor.queue_command(Commands.START, [])
-    CommandProcessor.queue_command(Commands.START_BATTLE, [])
+    game_monitor_thread = Thread(target=GameMonitor.start_monitoring)
+    game_monitor_thread.start()
 
     app = CursedApp()
     result = app.run()
@@ -143,5 +145,8 @@ def main():
         log('Ctrl-C pressed.')
     else:
         result.unwrap()
-    thread.join()
+
+    command_processor_thread.join()
+    game_monitor_thread.join()
+
     log("exiting")

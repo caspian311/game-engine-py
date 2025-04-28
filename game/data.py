@@ -2,8 +2,13 @@ from dataclasses import dataclass
 
 @dataclass
 class GameState():
-    running = True
-    prompt_for_user = True
+    RUN_STATE_INIT = 0
+    RUN_STATE_STARTING = 1
+    RUN_STATE_RUNNING = 2
+    RUN_STATE_QUITTING = 3
+    
+    run_state = RUN_STATE_INIT
+    prompt_for_user = False
     in_battle = False
     show_victory = False
 
