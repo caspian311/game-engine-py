@@ -25,6 +25,8 @@ class MainWindow(CursedWindow):
             CommandProcessor.queue_command(Commands.CREATE_USER, [name])
         elif DATA.state.show_victory:
             cls.addstr("VICTORY!", 5, 5)
+        elif DATA.state.show_defeat:
+            cls.addstr("DEFEAT!", 5, 5)
 
         cls.sleep(.1)
         cls.refresh()

@@ -11,6 +11,7 @@ class GameState():
     prompt_for_user = False
     in_battle = False
     show_victory = False
+    show_defeat = False
 
 @dataclass
 class Data():

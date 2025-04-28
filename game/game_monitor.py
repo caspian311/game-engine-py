@@ -11,9 +11,15 @@ class GameMonitor():
                 CommandProcessor.queue_command(Commands.START, [])
             elif not DATA.user:
                 CommandProcessor.queue_command(Commands.PROMPT_FOR_USER, [])
-            elif not DATA.state.in_battle:
+            elif not DATA.state.in_battle and not DATA.user.is_dead():
                 CommandProcessor.queue_command(Commands.START_BATTLE, [])
             elif len(DATA.live_npcs()) == 0:
-                CommandProcessor.queue_command(Commands.UPDATE_GAME_STATE, [])
+                CommandProcessor.queue_command(Commands.WIN_BATTLE, [])
+            elif DATA.user.is_dead():
+                CommandProcessor.queue_command(Commands.LOSE_BATTLE, [])
+            else:
+                baddie = DATA.live_npcs()[0]
+                user = DATA.user
+                CommandProcessor.queue_command(Commands.PHYSICAL_ATTACK, [baddie, user])
 
             sleep(1)

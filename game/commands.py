@@ -6,7 +6,8 @@ from game.start_command import StartCommand
 from game.start_battle_command import StartBattleCommand
 from game.prompt_for_user_command import PromptForUserCommand
 from game.create_user_command import CreateUserCommand
-from game.update_game_state_command import UpdateGameStateCommand
+from game.win_battle_command import WinBattleCommand
+from game.lose_battle_command import LoseBattleCommand
 from game.quit_command import QuitCommand
 from game.physical_attack_command import PhysicalAttackCommand
 from game.magic_attack_command import MagicAttackCommand
@@ -23,7 +24,8 @@ class Commands():
     MAGIC_ATTACK = "MAGIC_ATTACK"
     DEFEND = "DEFEND"
     HEAL = "HEAL"
-    UPDATE_GAME_STATE = "UPDATE_GAME_STATE"
+    WIN_BATTLE = "WIN_BATTLE"
+    LOSE_BATTLE = "LOSE_BATTLE"
 
     all_commands = {
         START: StartCommand(),
@@ -35,7 +37,8 @@ class Commands():
         MAGIC_ATTACK: MagicAttackCommand(),
         DEFEND: DefendCommand(),
         HEAL: HealCommand(),
-        UPDATE_GAME_STATE: UpdateGameStateCommand()
+        WIN_BATTLE: WinBattleCommand(),
+        LOSE_BATTLE: LoseBattleCommand()
     }
 
     @classmethod
