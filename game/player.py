@@ -69,6 +69,9 @@ class Player():
     def defend(self):
         self._is_defending = True
 
+    def is_defending(self):
+        return self._is_defending
+
     def is_dead(self):
         return self._attributes.current_health == 0
 
