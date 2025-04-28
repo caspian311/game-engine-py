@@ -1,4 +1,4 @@
-from console_manager import ConsoleManager
+from game.console_manager import ConsoleManager
 
 class Game():
     def __init__(self):
@@ -48,8 +48,7 @@ class Game():
         return TurnIterator(self)
 
     def _print_player_stats(self):
-        for player in self.all_players():
-            ConsoleManager.print_stats(player)
+        pass
 
 class Turn: # pylint: disable=too-few-public-methods
     def __init__(self, player):

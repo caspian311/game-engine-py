@@ -24,27 +24,6 @@ class ConsoleManager():
         print()
 
     @classmethod
-    def print_stats(cls, player):
-        print((
-            f"Name: {player.name()} ({player.attack()}:{player.defense()}) "
-            f"{cls._health_progress_bar(player, 20)} "
-            f"({player.current_health()}/{player.max_health()})"
-            ))
-
-    @classmethod
-    def _health_progress_bar(cls, player, scale):
-        percent_health_remaining = (player.current_health() / player.max_health())
-        health_scaled = int(percent_health_remaining * scale)
-
-        lost_health_val = scale - health_scaled
-        remaining_health_val = scale - lost_health_val
-
-        lost_health = "-" * lost_health_val
-        remaining_health = "#" * remaining_health_val
-
-        return f"{lost_health}{remaining_health}"
-
-    @classmethod
     def start_fight(cls):
         print("======FIGHT!======")
 

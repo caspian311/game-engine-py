@@ -1,11 +1,11 @@
 import mock
 
-from game import Game
-from console_manager import ConsoleManager
-from player_generator import PlayerGenerator
-from player import Player
-from user_player import UserPlayer
-from npc_player import NpcPlayer
+from game.game import Game
+from game.console_manager import ConsoleManager
+from game.player_generator import PlayerGenerator
+from game.player import Player
+from game.user_player import UserPlayer
+from game.npc_player import NpcPlayer
 
 def test_all_players_with_no_players():
     game = Game()
@@ -143,12 +143,11 @@ def test_user_player_when_user_player_dead():
 @mock.patch.object(ConsoleManager, 'start_game')
 @mock.patch.object(ConsoleManager, 'player_won')
 @mock.patch.object(ConsoleManager, 'player_lost')
-@mock.patch.object(ConsoleManager, 'print_stats')
 @mock.patch.object(ConsoleManager, 'start_round')
 @mock.patch.object(ConsoleManager, 'prompt_for_user_action')
 def test_initially_game_is_not_over(_start_game, _player_won,
-                                    _player_lost, _print_stats,
-                                    _start_round, _prompt_for_user_action):
+                                    _player_lost, _start_round,
+                                    _prompt_for_user_action):
     game = Game()
 
     game.add_player(blank_player())

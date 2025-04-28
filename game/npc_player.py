@@ -1,5 +1,5 @@
-from game_engine import GameEngine
-from player import Player
+from game.game_engine import GameEngine
+from game.player import Player
 
 class NpcPlayer(Player):
     def take_turn(self, game):
