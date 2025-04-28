@@ -6,7 +6,7 @@ class GameState():
     RUN_STATE_STARTING = 1
     RUN_STATE_RUNNING = 2
     RUN_STATE_QUITTING = 3
-    
+
     run_state = RUN_STATE_INIT
     prompt_for_user = False
     in_battle = False
