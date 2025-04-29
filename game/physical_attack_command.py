@@ -5,4 +5,5 @@ class PhysicalAttackCommand(Command):
         attacker, defender = arguments
 
         damage_dealt = attacker.attack() - defender.defense()
+        damage_dealt = max(damage_dealt, 0)
         defender.reduce_health(damage_dealt)
