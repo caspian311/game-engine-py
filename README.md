@@ -94,3 +94,9 @@ I really like having pylint. I don't know the Python standards and this is a goo
 I'm really enjoying being in Vim again. Just a good editor.
 
 Anyways - it's all about having fun with it. And so far, it's doing that for me. :)
+
+### Design patters
+
+So I started out with just a simple loop over a custom iterator that generated Turns and the turn was either the player's turn or the baddies turn. That was fine enough to start with. But when I created a screen with a GUI that had to run in its own thread, I had to adjust things a bit. I went with a Command pattern (no strict adherance to true design patters so don't come at me for that). The commands can be executed to change the game's state. I also have a global Data structure that keeps track of that state. And finally, I created a background thread that moves things along. And this is where things start to get interesting. What does moving things along look like? Right now? It's just battle after battle until you die. At some point, I want to do more than just battle, but also explore. Which could give rise to other things like inventory as well as occassional fights and maybe even a boss fight at the end. And what is the end? End of the level? End of the dungeon? Should these players persist? All good questions that I toy with but take one thing at a time.
+
+The commands also give me the ability to write unit tests around stuff. Especially given the global state of the data which gives a clear result of the command's execution. So tests are there. No end-to-end tests cause I don't want to write a screen reader for this.
