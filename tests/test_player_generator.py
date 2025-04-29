@@ -1,11 +1,8 @@
-import mock
-
-from game.console_manager import ConsoleManager
 from game.player_generator import PlayerGenerator
 from game.player import Player
 
 def user():
-    return PlayerGenerator.generate_user_player()
+    return PlayerGenerator.generate_user_player("Bob")
 
 def npc():
     return PlayerGenerator.generate_npc_player()
@@ -20,8 +17,7 @@ def test_npc_player_has_random_name():
 def test_npc_player_are_not_users():
     assert not npc().is_user()
 
-@mock.patch.object(ConsoleManager, 'prompt_for_user_name')
-def test_user_player_are_users(_):
+def test_user_player_are_users():
     assert user().is_user()
 
 def test_npc_player_has_more_than_min_health():
@@ -59,40 +55,35 @@ def test_npc_player_has_more_than_min_constitution():
     assert npc().constitution() >= Player.MIN_CONSTITUTION
     assert npc().constitution() >= Player.MIN_CONSTITUTION
 
-@mock.patch.object(ConsoleManager, 'prompt_for_user_name', return_value="test")
-def test_user_player_has_more_than_min_health(_):
+def test_user_player_has_more_than_min_health():
     assert user().max_health() >= Player.MIN_HEALTH
     assert user().max_health() >= Player.MIN_HEALTH
     assert user().max_health() >= Player.MIN_HEALTH
     assert user().max_health() >= Player.MIN_HEALTH
     assert user().max_health() >= Player.MIN_HEALTH
 
-@mock.patch.object(ConsoleManager, 'prompt_for_user_name', return_value="test")
-def test_user_player_has_more_than_min_attack(_):
+def test_user_player_has_more_than_min_attack():
     assert user().attack() >= Player.MIN_ATTACK
     assert user().attack() >= Player.MIN_ATTACK
     assert user().attack() >= Player.MIN_ATTACK
     assert user().attack() >= Player.MIN_ATTACK
     assert user().attack() >= Player.MIN_ATTACK
 
-@mock.patch.object(ConsoleManager, 'prompt_for_user_name', return_value="test")
-def test_user_player_has_more_than_min_magic(_):
+def test_user_player_has_more_than_min_magic():
     assert user().magic() >= Player.MIN_MAGIC
     assert user().magic() >= Player.MIN_MAGIC
     assert user().magic() >= Player.MIN_MAGIC
     assert user().magic() >= Player.MIN_MAGIC
     assert user().magic() >= Player.MIN_MAGIC
 
-@mock.patch.object(ConsoleManager, 'prompt_for_user_name', return_value="test")
-def test_user_player_has_more_than_min_defense(_):
+def test_user_player_has_more_than_min_defense():
     assert user().defense() >= Player.MIN_DEFENSE
     assert user().defense() >= Player.MIN_DEFENSE
     assert user().defense() >= Player.MIN_DEFENSE
     assert user().defense() >= Player.MIN_DEFENSE
     assert user().defense() >= Player.MIN_DEFENSE
 
-@mock.patch.object(ConsoleManager, 'prompt_for_user_name', return_value="test")
-def test_user_player_has_more_than_min_constitution(_):
+def test_user_player_has_more_than_min_constitution():
     assert user().constitution() >= Player.MIN_CONSTITUTION
     assert user().constitution() >= Player.MIN_CONSTITUTION
     assert user().constitution() >= Player.MIN_CONSTITUTION

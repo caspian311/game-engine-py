@@ -6,16 +6,16 @@ class Player():
     MAX_HEALTH = 100
     MIN_ATTACK = 1
     MAX_ATTACK = 10
-    MIN_MAGIC = 5
-    MAX_MAGIC = 20
+    MIN_MAGIC = 0
+    MAX_MAGIC = 0
     MIN_DEFENSE = 1
     MAX_DEFENSE = 5
-    MIN_CONSTITUTION = 1
-    MAX_CONSTITUTION = 5
+    MIN_CONSTITUTION = 0
+    MAX_CONSTITUTION = 0
 
     def __init__(self, name):
         self._name = name
-        self._attributes = Attributes()
+        self._attributes = Attributes(type(self))
 
         self._is_defending = False
 
@@ -69,23 +69,23 @@ class Player():
     def defend(self):
         self._is_defending = True
 
+    def is_defending(self):
+        return self._is_defending
+
     def is_dead(self):
         return self._attributes.current_health == 0
-
-    def take_turn(self, game):
-        pass
 
     def is_user(self):
         return False
 
 @dataclass
 class Attributes():
-    def __init__(self):
+    def __init__(self, parent):
         self.max_health = random.randint(
-                Player.MIN_HEALTH, Player.MAX_HEALTH)
+                parent.MIN_HEALTH, parent.MAX_HEALTH)
         self.current_health = self.max_health
-        self.attack = random.randint(Player.MIN_ATTACK, Player.MAX_ATTACK)
-        self.magic = random.randint(Player.MIN_MAGIC, Player.MAX_MAGIC)
-        self.defense = random.randint(Player.MIN_DEFENSE, Player.MAX_DEFENSE)
+        self.attack = random.randint(parent.MIN_ATTACK, parent.MAX_ATTACK)
+        self.magic = random.randint(parent.MIN_MAGIC, parent.MAX_MAGIC)
+        self.defense = random.randint(parent.MIN_DEFENSE, parent.MAX_DEFENSE)
         self.constitution = random.randint(
-                Player.MIN_CONSTITUTION, Player.MAX_CONSTITUTION)
+                parent.MIN_CONSTITUTION, parent.MAX_CONSTITUTION)
