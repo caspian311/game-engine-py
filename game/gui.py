@@ -8,6 +8,41 @@ from game.data import DATA, GameState
 
 SCREEN_WIDTH, SCREEN_HEIGHT = (240, 55)
 
+class TitleWindow(CursedWindow):
+    X, Y = (0, 0)
+    WIDTH, HEIGHT = (SCREEN_WIDTH, SCREEN_HEIGHT)
+    BORDERED = True
+
+    title_screen_content = []
+    with open("./artwork/title-page.txt", "r", encoding="UTF-8") as file:
+        for line in file:
+            title_screen_content.append(line)
+
+    @classmethod
+    def update(cls):
+        if DATA.state.run_state == GameState.RUN_STATE_QUITTING:
+            cls.trigger('quit')
+
+        if not DATA.state.show_title_page:
+            return
+
+        cls._clear_screen(cls.WIDTH, cls.HEIGHT)
+
+        for line in TitleWindow.title_screen_content:
+            cls.addstr(line, 5, 5)
+
+        cls.addstr("Press Any Key To Start", 5, 20)
+        cls.getch()
+
+        cls.sleep(.1)
+        cls.refresh()
+
+    @classmethod
+    def _clear_screen(cls, width, height):
+        line = "".join([" " for x in range(0, width-3)])
+        for y in range(1, height-2):
+            cls.addstr(line, 1, y)
+
 class MainWindow(CursedWindow):
     X, Y = (0, 0)
     WIDTH, HEIGHT = (SCREEN_WIDTH, SCREEN_HEIGHT - 10)
@@ -17,6 +52,9 @@ class MainWindow(CursedWindow):
     def update(cls):
         if DATA.state.run_state == GameState.RUN_STATE_QUITTING:
             cls.trigger('quit')
+
+        if DATA.state.show_title_page:
+            return
 
         cls._clear_screen(cls.WIDTH, cls.HEIGHT)
 
@@ -47,6 +85,9 @@ class UserActionsWindow(CursedWindow):
     def update(cls):
         if DATA.state.run_state == GameState.RUN_STATE_QUITTING:
             cls.trigger('quit')
+
+        if DATA.state.show_title_page:
+            return
 
         cls._clear_screen(cls.WIDTH, cls.HEIGHT)
 
@@ -88,6 +129,9 @@ class UserStatsWindow(CursedWindow):
     def update(cls):
         if DATA.state.run_state == GameState.RUN_STATE_QUITTING:
             cls.trigger('quit')
+
+        if DATA.state.show_title_page:
+            return
 
         cls._clear_screen(cls.WIDTH, cls.HEIGHT)
 

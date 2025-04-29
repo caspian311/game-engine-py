@@ -10,6 +10,7 @@ class GameState():
     run_state = RUN_STATE_INIT
     prompt_for_user = False
     in_battle = False
+    show_title_page = True
     show_victory = False
     show_defeat = False
 
