@@ -42,4 +42,3 @@ class UserActionsWindow(CursedWindow):
         line = "".join([" " for x in range(0, width-3)])
         for y in range(1, height-2):
             cls.addstr(line, 1, y)
-
