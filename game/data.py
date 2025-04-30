@@ -17,6 +17,10 @@ class GameState():
 
 @dataclass
 class Data():
+    window = {
+        "width": 240,
+        "height": 55
+    }
     state = GameState()
     user = None
     _npcs = []
