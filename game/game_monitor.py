@@ -9,7 +9,9 @@ class GameMonitor():
         while DATA.state.run_state != GameState.RUN_STATE_QUITTING:
             if DATA.state.run_state != GameState.RUN_STATE_STARTING:
                 CommandProcessor.queue_command(Commands.START, [])
-                # TODO show title page
+            elif not DATA.state.has_shown_title_page or DATA.state.show_title_page:
+                CommandProcessor.queue_command(Commands.SHOW_TITLE_PAGE, [])
+                DATA.state.has_shown_title_page = True
             elif not DATA.user:
                 CommandProcessor.queue_command(Commands.PROMPT_FOR_USER, [])
             elif not DATA.state.in_battle and not DATA.user.is_dead():

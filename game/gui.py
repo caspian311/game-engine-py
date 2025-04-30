@@ -8,9 +8,9 @@ from game.data import DATA, GameState
 
 SCREEN_WIDTH, SCREEN_HEIGHT = (240, 55)
 
-class TitleWindow(CursedWindow):
+class MainWindow(CursedWindow):
     X, Y = (0, 0)
-    WIDTH, HEIGHT = (SCREEN_WIDTH, SCREEN_HEIGHT)
+    WIDTH, HEIGHT = (SCREEN_WIDTH, SCREEN_HEIGHT - 10)
     BORDERED = True
 
     title_screen_content = []
@@ -23,42 +23,18 @@ class TitleWindow(CursedWindow):
         if DATA.state.run_state == GameState.RUN_STATE_QUITTING:
             cls.trigger('quit')
 
-        if not DATA.state.show_title_page:
-            return
-
         cls._clear_screen(cls.WIDTH, cls.HEIGHT)
-
-        for line in TitleWindow.title_screen_content:
-            cls.addstr(line, 5, 5)
-
-        cls.addstr("Press Any Key To Start", 5, 20)
-        cls.getch()
-
-        cls.sleep(.1)
-        cls.refresh()
-
-    @classmethod
-    def _clear_screen(cls, width, height):
-        line = "".join([" " for x in range(0, width-3)])
-        for y in range(1, height-2):
-            cls.addstr(line, 1, y)
-
-class MainWindow(CursedWindow):
-    X, Y = (0, 0)
-    WIDTH, HEIGHT = (SCREEN_WIDTH, SCREEN_HEIGHT - 10)
-    BORDERED = True
-
-    @classmethod
-    def update(cls):
-        if DATA.state.run_state == GameState.RUN_STATE_QUITTING:
-            cls.trigger('quit')
 
         if DATA.state.show_title_page:
-            return
+            for index, line in enumerate(MainWindow.title_screen_content):
+                cls.addstr(line, 5, index + 5)
 
-        cls._clear_screen(cls.WIDTH, cls.HEIGHT)
-
-        if DATA.state.prompt_for_user:
+            cls.addstr("Press Any Key To Start", 5, 20)
+            k = cls.getch()
+            log(f"title page just got: {k}")
+            if k is not None:
+                CommandProcessor.queue_command(Commands.HIDE_TITLE_PAGE, [])
+        elif DATA.state.prompt_for_user:
             name = cls.getstr(5, 5, "What is your name? ")
             CommandProcessor.queue_command(Commands.CREATE_USER, [name])
         elif DATA.state.show_victory:
@@ -85,9 +61,6 @@ class UserActionsWindow(CursedWindow):
     def update(cls):
         if DATA.state.run_state == GameState.RUN_STATE_QUITTING:
             cls.trigger('quit')
-
-        if DATA.state.show_title_page:
-            return
 
         cls._clear_screen(cls.WIDTH, cls.HEIGHT)
 
@@ -129,9 +102,6 @@ class UserStatsWindow(CursedWindow):
     def update(cls):
         if DATA.state.run_state == GameState.RUN_STATE_QUITTING:
             cls.trigger('quit')
-
-        if DATA.state.show_title_page:
-            return
 
         cls._clear_screen(cls.WIDTH, cls.HEIGHT)
 

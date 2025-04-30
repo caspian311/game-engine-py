@@ -13,10 +13,13 @@ from game.physical_attack_command import PhysicalAttackCommand
 from game.magic_attack_command import MagicAttackCommand
 from game.defend_command import DefendCommand
 from game.heal_command import HealCommand
+from game.title_page_command import ShowTitlePageCommand, HideTitlePageCommand
 
 class Commands():
     START = "START"
     START_BATTLE = "START_BATTLE"
+    SHOW_TITLE_PAGE = "SHOW_TITLE_PAGE"
+    HIDE_TITLE_PAGE = "HIDE_TITLE_PAGE"
     PROMPT_FOR_USER = "PROMPT_FOR_USER"
     CREATE_USER = "CREATE_USER"
     QUIT = "QUIT"
@@ -30,6 +33,8 @@ class Commands():
     all_commands = {
         START: StartCommand(),
         START_BATTLE: StartBattleCommand(),
+        SHOW_TITLE_PAGE: ShowTitlePageCommand(),
+        HIDE_TITLE_PAGE: HideTitlePageCommand(),
         PROMPT_FOR_USER: PromptForUserCommand(),
         CREATE_USER: CreateUserCommand(),
         QUIT: QuitCommand(),
