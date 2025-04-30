@@ -34,6 +34,8 @@ def test_game_monitor_doesnt_start_if_already_started(mock_queue_command):
 @mock.patch.object(CommandProcessor, "queue_command")
 def test_game_monitor_prompts_for_user_if_no_user_yet(mock_queue_command):
     DATA.state.run_state = GameState.RUN_STATE_STARTING
+    DATA.state.has_shown_title_page = True
+    DATA.state.show_title_page = False
     DATA.user = None
 
     t = Thread(target=GameMonitor.start_monitoring)
@@ -47,6 +49,8 @@ def test_game_monitor_prompts_for_user_if_no_user_yet(mock_queue_command):
 @mock.patch.object(CommandProcessor, "queue_command")
 def test_game_monitor_doesnt_prompt_for_user_if_already_user(mock_queue_command):
     DATA.state.run_state = GameState.RUN_STATE_STARTING
+    DATA.state.has_shown_title_page = True
+    DATA.state.show_title_page = False
     DATA.user = Player("")
 
     t = Thread(target=GameMonitor.start_monitoring)
