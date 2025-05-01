@@ -7,4 +7,3 @@ class CreateUserCommand(Command):
         player_name = arguments[0]
 
         DATA.user = PlayerGenerator.generate_user_player(player_name)
-        DATA.state.prompt_for_user = False

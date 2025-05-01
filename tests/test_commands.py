@@ -11,11 +11,11 @@ def test_queue_command_adds():
     assert 1 == len(CommandProcessor.commands)
 
 def test_excute_will_excute_given_command():
-    DATA.state.run_state = GameState.RUN_STATE_INIT
+    DATA.state.run_state = GameState.INIT
 
     Commands.execute(Commands.START, [])
 
-    assert GameState.RUN_STATE_STARTING == DATA.state.run_state
+    assert GameState.STARTING == DATA.state.run_state
 
 def test_excute_will_not_blow_up_if_given_bad_command():
     Commands.execute("something", [])

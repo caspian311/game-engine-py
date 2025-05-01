@@ -1,5 +1,5 @@
 from game.start_battle_command import StartBattleCommand
-from game.data import DATA
+from game.data import DATA, GameState
 
 def test_start_battle_command_adds_npcs():
     assert 0 == len(DATA.live_npcs())
@@ -13,4 +13,4 @@ def test_start_battle_command_sets_in_battle_state():
 
     StartBattleCommand().execute([])
 
-    assert DATA.state.in_battle
+    assert GameState.IN_BATTLE == DATA.state.run_state

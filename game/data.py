@@ -2,19 +2,23 @@ from dataclasses import dataclass
 
 @dataclass
 class GameState():
-    RUN_STATE_INIT = 0
-    RUN_STATE_STARTING = 1
-    RUN_STATE_RUNNING = 2
-    RUN_STATE_QUITTING = 3
+    QUITTING = -1
+    INIT = 0
+    STARTING = 1
+    TITLE_PAGE = 2
+    USER_CREATION = 3
+    IN_BATTLE = 4
+    VICTORY = 5
+    DEFEAT = 6
 
-    run_state = RUN_STATE_INIT
-    prompt_for_user = False
-    in_battle = False
-    show_victory = False
-    show_defeat = False
+    run_state = INIT
 
 @dataclass
 class Data():
+    window = {
+        "width": 240,
+        "height": 55
+    }
     state = GameState()
     user = None
     _npcs = []
