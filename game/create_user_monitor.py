@@ -1,4 +1,4 @@
-from game.data import DATA
+from game.data import DATA, GameState
 from game.commands import Commands, CommandProcessor
 
 class CreateUserMonitor:
@@ -6,6 +6,5 @@ class CreateUserMonitor:
         pass
 
     def refresh(self):
-        if not DATA.state.has_shown_title_page or DATA.state.show_title_page:
-            if not DATA.user:
-                CommandProcessor.queue_command(Commands.PROMPT_FOR_USER, [])
+        if DATA.user and DATA.state.run_state != GameState.IN_BATTLE:
+            CommandProcessor.queue_command(Commands.START_BATTLE, [])

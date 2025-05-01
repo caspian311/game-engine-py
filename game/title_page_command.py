@@ -1,10 +1,10 @@
-from game.data import DATA
+from game.data import DATA, GameState
 from game.command import Command
 
 class ShowTitlePageCommand(Command):
     def execute(self, _):
-        DATA.state.show_title_page = True
+        DATA.state.run_state = GameState.TITLE_PAGE
 
 class HideTitlePageCommand(Command):
     def execute(self, _):
-        DATA.state.show_title_page = False
+        DATA.state.run_state = GameState.USER_CREATION

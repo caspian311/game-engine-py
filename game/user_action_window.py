@@ -10,12 +10,12 @@ class UserActionsWindow(CursedWindow):
 
     @classmethod
     def update(cls):
-        if DATA.state.run_state == GameState.RUN_STATE_QUITTING:
+        if DATA.state.run_state == GameState.QUITTING:
             cls.trigger('quit')
 
         cls._clear_screen(cls.WIDTH, cls.HEIGHT)
 
-        if DATA.state.in_battle:
+        if DATA.state.run_state == GameState.IN_BATTLE:
             cls.addstr("Choose your action:", 1, 2)
             cls.addstr("A: ATTACK", 1, 3)
             cls.addstr("M: MAGIC", 1, 4)

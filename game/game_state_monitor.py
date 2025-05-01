@@ -6,5 +6,5 @@ class GameStateMonitor:
         pass
 
     def refresh(self):
-        if DATA.state.run_state != GameState.RUN_STATE_STARTING:
+        if DATA.state.run_state == GameState.INIT:
             CommandProcessor.queue_command(Commands.START, [])

@@ -10,12 +10,12 @@ class UserStatsWindow(CursedWindow):
 
     @classmethod
     def update(cls):
-        if DATA.state.run_state == GameState.RUN_STATE_QUITTING:
+        if DATA.state.run_state == GameState.QUITTING:
             cls.trigger('quit')
 
         cls._clear_screen(cls.WIDTH, cls.HEIGHT)
 
-        if DATA.state.in_battle:
+        if DATA.state.run_state == GameState.IN_BATTLE:
             cls._show_player_data(DATA.user, 0)
 
             for index, npc in enumerate(DATA.live_npcs()):

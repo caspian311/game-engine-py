@@ -1,5 +1,5 @@
 from game.command import Command
-from game.data import DATA
+from game.data import DATA, GameState
 from game.player_generator import PlayerGenerator
 
 class StartBattleCommand(Command):
@@ -7,4 +7,4 @@ class StartBattleCommand(Command):
         DATA.add_npc(PlayerGenerator.generate_goblin_player())
         DATA.add_npc(PlayerGenerator.generate_goblin_player())
 
-        DATA.state.in_battle = True
+        DATA.state.run_state = GameState.IN_BATTLE

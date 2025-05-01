@@ -6,7 +6,5 @@ class TitlePageMonitor:
         pass
 
     def refresh(self):
-        if DATA.state.run_state != GameState.RUN_STATE_STARTING:
-            if not DATA.state.has_shown_title_page or DATA.state.show_title_page:
-                CommandProcessor.queue_command(Commands.SHOW_TITLE_PAGE, [])
-                DATA.state.has_shown_title_page = True
+        if DATA.state.run_state == GameState.STARTING:
+            CommandProcessor.queue_command(Commands.SHOW_TITLE_PAGE, [])

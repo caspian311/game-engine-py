@@ -15,19 +15,19 @@ class MainWindow(CursedWindow):
 
     @classmethod
     def update(cls):
-        if DATA.state.run_state == GameState.RUN_STATE_QUITTING:
+        if DATA.state.run_state == GameState.QUITTING:
             cls.trigger('quit')
 
         cls._clear_screen(cls.WIDTH, cls.HEIGHT)
 
-        if DATA.state.show_title_page:
+        if DATA.state.run_state == GameState.TITLE_PAGE:
             cls._handle_title_page()
-        elif DATA.state.prompt_for_user:
+        elif not DATA.user and DATA.state.run_state == GameState.USER_CREATION:
             name = cls.getstr(5, 5, "What is your name? ")
             CommandProcessor.queue_command(Commands.CREATE_USER, [name])
-        elif DATA.state.show_victory:
+        elif DATA.state.run_state == GameState.VICTORY:
             cls.addstr("VICTORY!", 5, 5)
-        elif DATA.state.show_defeat:
+        elif DATA.state.run_state == GameState.DEFEAT:
             cls.addstr("DEFEAT!", 5, 5)
 
         cls.sleep(.1)
