@@ -6,4 +6,4 @@ def test_execute_sets_run_state():
 
     StartCommand().execute([])
 
-    assert GameState.RUN_STATE_STARTING == DATA.state.run_state
+    assert GameState.STARTING == DATA.state.run_state

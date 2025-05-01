@@ -1,3 +1,4 @@
+# pylint: disable=R0801
 from cursed import CursedWindow
 
 from game.commands import Commands, CommandProcessor
