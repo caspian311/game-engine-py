@@ -7,6 +7,7 @@ from game.data import DATA, GameState
 
 @mock.patch.object(CommandProcessor, "queue_command")
 def test_game_monitor_sends_start(mock_queue_command):
+    DATA.user = None
     DATA.state.run_state = GameState.INIT
 
     t = Thread(target=GameMonitor.start_monitoring)
@@ -19,6 +20,7 @@ def test_game_monitor_sends_start(mock_queue_command):
 
 @mock.patch.object(CommandProcessor, "queue_command")
 def test_game_monitor_doesnt_start_if_already_started(mock_queue_command):
+    DATA.user = None
     DATA.state.run_state = GameState.STARTING
 
     t = Thread(target=GameMonitor.start_monitoring)
