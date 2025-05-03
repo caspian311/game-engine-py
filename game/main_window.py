@@ -42,12 +42,12 @@ class MainWindow(CursedWindow):
         elif DATA.state.run_state == GameState.IN_BATTLE:
             cls._show_player()
             cls._show_npcs()
-        elif DATA.state.run_state == GameState.VICTORY:
+
+        if DATA.state.run_state == GameState.VICTORY:
             cls._display_status_message("VICTORY!")
         elif DATA.state.run_state == GameState.DEFEAT:
             cls._display_status_message("DEFEAT!")
-
-        if DATA.latest_message:
+        elif DATA.latest_message:
             cls._display_status_message(DATA.latest_message)
 
         cls.sleep(.1)
