@@ -6,5 +6,9 @@ class GoblinPlayer(Player):
     MIN_ATTACK = 5
     MAX_ATTACK = 8
 
+    def turn(self):
+        return "a"
+
 class NpcPlayer(Player):
-    pass
+    def turn(self):
+        return "a"

@@ -7,8 +7,9 @@ class BattleMonitor:
 
     def refresh(self):
         if self._battle_in_progress():
-            turn = self._current_battle().next_turn()
-            turn.take_turn()
+            battle = self._current_battle()
+            if battle.take_turn():
+                battle.go_to_next_turn()
 
         if self._user_won_battle():
             self._clear_battle()
