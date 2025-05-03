@@ -14,6 +14,11 @@ class MainWindow(CursedWindow):
         for line in file:
             title_screen_content.append(line)
 
+    fighter_standing_content = []
+    with open("./artwork/fighter_standing.txt", "r", encoding="UTF-8") as file:
+        for line in file:
+            fighter_standing_content.append(line)
+
     @classmethod
     def _middle_of_window_width(cls):
         return int(MainWindow.WIDTH / 2)
@@ -34,6 +39,9 @@ class MainWindow(CursedWindow):
         elif not DATA.user and DATA.state.run_state == GameState.USER_CREATION:
             name = cls.getstr(5, 5, "What is your name? ")
             CommandProcessor.queue_command(Commands.CREATE_USER, [name])
+        elif DATA.state.run_state == GameState.IN_BATTLE:
+            cls._show_player()
+            cls._show_npcs()
         elif DATA.state.run_state == GameState.VICTORY:
             cls._display_status_message("VICTORY!")
         elif DATA.state.run_state == GameState.DEFEAT:
@@ -44,6 +52,38 @@ class MainWindow(CursedWindow):
 
         cls.sleep(.1)
         cls.refresh()
+
+    @classmethod
+    def _show_player(cls):
+        start_player_width, start_player_height = cls._calculate_player_position()
+
+        for index, line in enumerate(MainWindow.fighter_standing_content):
+            line = line.rstrip()
+            cls.addstr(line, start_player_width, start_player_height + index)
+
+    @classmethod
+    def _calculate_player_position(cls):
+        return (cls._calculate_player_width(), cls._calculate_player_height())
+
+    @classmethod
+    def _calculate_player_width(cls):
+        player_width = len(MainWindow.fighter_standing_content[0])
+        middle_of_player = int(player_width / 2)
+        quarter_of_window = int(cls._middle_of_window_width() / 2)
+        start_of_player = quarter_of_window - middle_of_player
+        return start_of_player
+
+    @classmethod
+    def _calculate_player_height(cls):
+        player_height = len(MainWindow.fighter_standing_content)
+        middle_of_player = int(player_height / 2)
+        middle_of_window = cls._middle_of_window_height()
+        start_of_player = middle_of_window - middle_of_player
+        return start_of_player
+
+    @classmethod
+    def _show_npcs(cls):
+        pass
 
     @classmethod
     def _display_status_message(cls, message):
