@@ -171,7 +171,7 @@ def test_battle_user_uses_defends_when_commanded(mock_queue_command):
     DATA.user.set_turn("d")
     test_object.take_turn()
 
-    mock_queue_command.assert_called_once_with(Commands.DEFEND, [])
+    mock_queue_command.assert_called_once_with(Commands.DEFEND, [DATA.user])
 
 @mock.patch.object(CommandProcessor, "queue_command")
 def test_battle_user_uses_heals_when_commanded(mock_queue_command):
@@ -186,7 +186,7 @@ def test_battle_user_uses_heals_when_commanded(mock_queue_command):
     DATA.user.set_turn("h")
     test_object.take_turn()
 
-    mock_queue_command.assert_called_once_with(Commands.HEAL, [])
+    mock_queue_command.assert_called_once_with(Commands.HEAL, [DATA.user])
 
 @mock.patch.object(CommandProcessor, "queue_command")
 def test_battle_user_can_keep_taking_turns(mock_queue_command):

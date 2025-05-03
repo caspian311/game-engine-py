@@ -26,12 +26,12 @@ class Battle():
                 current_turn.set_turn(None)
             return True
         if "d" == current_turn.turn():
-            CommandProcessor.queue_command(Commands.DEFEND, [])
+            CommandProcessor.queue_command(Commands.DEFEND, [DATA.user])
             if current_turn.is_user():
                 current_turn.set_turn(None)
             return True
         if "h" == current_turn.turn():
-            CommandProcessor.queue_command(Commands.HEAL, [])
+            CommandProcessor.queue_command(Commands.HEAL, [DATA.user])
             if current_turn.is_user():
                 current_turn.set_turn(None)
             return True
