@@ -15,6 +15,14 @@ class MainWindow(CursedWindow):
             title_screen_content.append(line)
 
     @classmethod
+    def _middle_of_window_width(cls):
+        return int(MainWindow.WIDTH / 2)
+
+    @classmethod
+    def _middle_of_window_height(cls):
+        return int(MainWindow.HEIGHT / 2)
+
+    @classmethod
     def update(cls):
         if DATA.state.run_state == GameState.QUITTING:
             cls.trigger('quit')
@@ -31,6 +39,10 @@ class MainWindow(CursedWindow):
         elif DATA.state.run_state == GameState.DEFEAT:
             cls.addstr("DEFEAT!", 5, 5)
 
+        if DATA.latest_message:
+            message_start_point = cls._middle_of_window_width() - int(len(DATA.latest_message) / 2)
+            cls.addstr(f"{DATA.latest_message}", message_start_point, cls.HEIGHT - 3)
+
         cls.sleep(.1)
         cls.refresh()
 
@@ -39,6 +51,7 @@ class MainWindow(CursedWindow):
         start_of_title, start_of_title_height = cls._calculate_title_position()
 
         for index, line in enumerate(MainWindow.title_screen_content):
+            line = line.rstrip()
             cls.addstr(line, start_of_title, index + start_of_title_height)
 
         title_prompt = "Press Any Key To Start"
@@ -49,10 +62,11 @@ class MainWindow(CursedWindow):
         k = cls.getch()
         if k is not None:
             CommandProcessor.queue_command(Commands.HIDE_TITLE_PAGE, [])
+
     @classmethod
     def _calculate_title_prompt_position(cls, title_prompt, start_of_title_height):
         middle_of_prompt = int(len(title_prompt) / 2)
-        middle_of_window = int(MainWindow.WIDTH / 2)
+        middle_of_window = cls._middle_of_window_width()
         title_position = middle_of_window - middle_of_prompt
         title_height = len(MainWindow.title_screen_content)
 
@@ -67,7 +81,7 @@ class MainWindow(CursedWindow):
     def _calculate_title_position_width(cls):
         title_width = len(MainWindow.title_screen_content[0])
         middle_of_title = int(title_width / 2)
-        middle_of_window = int(MainWindow.WIDTH / 2)
+        middle_of_window = cls._middle_of_window_width()
         start_of_title = middle_of_window - middle_of_title
         return start_of_title
 
@@ -75,7 +89,7 @@ class MainWindow(CursedWindow):
     def _calculate_title_height(cls):
         title_height = len(MainWindow.title_screen_content)
         middle_of_title_height = int(title_height / 2)
-        middle_of_window_height = int(MainWindow.HEIGHT / 2)
+        middle_of_window_height = cls._middle_of_window_height()
         start_of_title_height = middle_of_window_height - middle_of_title_height
         return start_of_title_height
 

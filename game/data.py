@@ -22,6 +22,7 @@ class Data():
     state = GameState()
     user = None
     _npcs = []
+    latest_message = None
 
     @classmethod
     def add_npc(cls, player):
