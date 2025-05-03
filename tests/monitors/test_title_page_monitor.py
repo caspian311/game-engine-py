@@ -1,7 +1,7 @@
 import mock
 
 from game.data import DATA, GameState
-from game.title_page_monitor import TitlePageMonitor
+from game.monitors.title_page_monitor import TitlePageMonitor
 from game.commands.commands import CommandProcessor, Commands
 
 @mock.patch.object(CommandProcessor, "queue_command")

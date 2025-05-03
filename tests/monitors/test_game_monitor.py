@@ -1,7 +1,7 @@
 from threading import Thread
 import mock
 
-from game.game_monitor import GameMonitor
+from game.monitors.game_monitor import GameMonitor
 from game.commands.commands import Commands, CommandProcessor
 from game.data import DATA, GameState
 

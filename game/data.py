@@ -13,32 +13,6 @@ class GameState():
 
     run_state = INIT
 
-class BattleState():
-    def __init__(self):
-        self._last_turn = None
-
-    def next_turn(self):
-        if self._user_turn() is None:
-            self._last_turn = self._user_turn()
-            return self._last_turn
-
-        if self._last_turn.is_user():
-            return self._npc_turn()
-        return self._user_turn()
-
-    def _user_turn(self):
-        return Turn()
-
-    def _npc_turn(self):
-        return Turn()
-
-class Turn():
-    def is_user(self):
-        return True
-
-    def take_turn(self):
-        pass
-
 @dataclass
 class Data():
     window = {
@@ -47,7 +21,6 @@ class Data():
     }
     state = GameState()
     user = None
-    battle = BattleState()
     _npcs = []
 
     @classmethod

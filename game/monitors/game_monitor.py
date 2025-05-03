@@ -1,10 +1,10 @@
 from time import sleep
 
 from game.data import DATA, GameState
-from game.game_state_monitor import GameStateMonitor
-from game.title_page_monitor import TitlePageMonitor
-from game.create_user_monitor import CreateUserMonitor
-from game.battle_monitor import BattleMonitor
+from game.monitors.game_state_monitor import GameStateMonitor
+from game.monitors.title_page_monitor import TitlePageMonitor
+from game.monitors.create_user_monitor import CreateUserMonitor
+from game.monitors.battle_monitor import BattleMonitor
 from game.logger import log
 
 class GameMonitor():

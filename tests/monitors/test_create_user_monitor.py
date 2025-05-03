@@ -2,7 +2,7 @@ import mock
 
 from game.data import DATA, GameState
 from game.player import Player
-from game.create_user_monitor import CreateUserMonitor
+from game.monitors.create_user_monitor import CreateUserMonitor
 from game.commands.commands import CommandProcessor, Commands
 
 @mock.patch.object(CommandProcessor, "queue_command")
