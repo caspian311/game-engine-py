@@ -1,6 +1,5 @@
 from game.data import DATA, GameState
-from game.commands.commands import Commands, CommandProcessor
-from game.logger import log
+from game.monitors.battle import Battle
 
 class BattleMonitor:
     def __init__(self):
@@ -10,10 +9,6 @@ class BattleMonitor:
         if self._battle_in_progress():
             turn = self._current_battle().next_turn()
             turn.take_turn()
-
-#            baddie = DATA.live_npcs()[0]
-#            user = DATA.user
-#            CommandProcessor.queue_command(Commands.PHYSICAL_ATTACK, [baddie, user])
 
         if self._user_won_battle():
             self._clear_battle()
@@ -38,41 +33,3 @@ class BattleMonitor:
 
     def _user_lost_battle(self):
         return DATA.state.run_state == GameState.IN_BATTLE and DATA.user.is_dead()
-
-class Battle():
-    def __init__(self):
-        self._current_turn = 0
-        self._turn_order = [DATA.user]
-        self._turn_order += DATA.live_npcs()
-
-    def next_turn(self):
-        current_turn = self._turn_order[self._current_turn]
-        self._current_turn += 1
-        self._current_turn = self._current_turn % len(self._turn_order)
-
-        log(f"current turn: {current_turn}")
-
-        return Turn(current_turn)
-
-class Turn():
-    def __init__(self, player):
-        self._player = player
-
-    def is_user(self):
-        return self._player.is_user()
-
-    def take_turn(self):
-        pass
-
-# class PlayerIterator:
-#     def __init__(self):
-#         pass
-#
-#     def __iter__(self):
-#         return self
-#
-#     def __next__(self):
-#         if len(DATA.live_npcs) == 0:
-#             raise StopIteration
-#
-#         return Player("")
