@@ -1,7 +1,6 @@
 # pylint: disable=R0801
 from cursed import CursedWindow
 
-from game.commands import Commands, CommandProcessor
 from game.data import DATA, GameState
 
 class UserActionsWindow(CursedWindow):
@@ -25,15 +24,13 @@ class UserActionsWindow(CursedWindow):
 
             k = cls.getch()
             if k == ord('a'):
-                CommandProcessor.queue_command(
-                        Commands.PHYSICAL_ATTACK, [DATA.user, DATA.live_npcs()[0]])
+                DATA.user.set_turn('a')
             elif k == ord('m'):
-                CommandProcessor.queue_command(
-                        Commands.MAGIC_ATTACK, [DATA.user, DATA.live_npcs()[0]])
+                DATA.user.set_turn('m')
             elif k == ord('d'):
-                CommandProcessor.queue_command(Commands.DEFEND, [DATA.user])
+                DATA.user.set_turn('d')
             elif k == ord('h'):
-                CommandProcessor.queue_command(Commands.HEAL, [DATA.user])
+                DATA.user.set_turn('h')
 
         cls.sleep(.1)
         cls.refresh()

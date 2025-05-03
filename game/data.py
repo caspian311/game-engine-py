@@ -31,4 +31,8 @@ class Data():
     def live_npcs(cls):
         return [npc for npc in cls._npcs if not npc.is_dead()]
 
+    @classmethod
+    def clear_npcs(cls):
+        cls._npcs = []
+
 DATA = Data()

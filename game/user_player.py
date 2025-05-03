@@ -12,3 +12,9 @@ class UserPlayer(Player):
 
     def is_user(self):
         return True
+
+    def set_turn(self, turn):
+        self._turn = turn
+
+    def turn(self):
+        return self._turn

@@ -6,8 +6,8 @@ import game.user_action_window # pylint: disable=W0611
 import game.user_stats_window # pylint: disable=W0611
 
 from game.logger import log
-from game.commands import CommandProcessor
-from game.game_monitor import GameMonitor
+from game.commands.commands import CommandProcessor
+from game.monitors.game_monitor import GameMonitor
 
 def main():
     command_processor_thread = Thread(target=CommandProcessor.process)

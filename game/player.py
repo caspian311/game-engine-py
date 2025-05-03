@@ -15,6 +15,7 @@ class Player():
 
     def __init__(self, name):
         self._name = name
+        self._turn = None
         self._attributes = Attributes(type(self))
 
         self._is_defending = False
@@ -77,6 +78,9 @@ class Player():
 
     def is_user(self):
         return False
+
+    def turn(self):
+        pass
 
 @dataclass
 class Attributes():
