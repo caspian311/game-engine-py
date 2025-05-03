@@ -35,16 +35,20 @@ class MainWindow(CursedWindow):
             name = cls.getstr(5, 5, "What is your name? ")
             CommandProcessor.queue_command(Commands.CREATE_USER, [name])
         elif DATA.state.run_state == GameState.VICTORY:
-            cls.addstr("VICTORY!", 5, 5)
+            cls._display_status_message("VICTORY!")
         elif DATA.state.run_state == GameState.DEFEAT:
-            cls.addstr("DEFEAT!", 5, 5)
+            cls._display_status_message("DEFEAT!")
 
         if DATA.latest_message:
-            message_start_point = cls._middle_of_window_width() - int(len(DATA.latest_message) / 2)
-            cls.addstr(f"{DATA.latest_message}", message_start_point, cls.HEIGHT - 3)
+            cls._display_status_message(DATA.latest_message)
 
         cls.sleep(.1)
         cls.refresh()
+
+    @classmethod
+    def _display_status_message(cls, message):
+        message_start_point = cls._middle_of_window_width() - int(len(message) / 2)
+        cls.addstr(f"{message}", message_start_point, cls.HEIGHT - 3)
 
     @classmethod
     def _handle_title_page(cls):
