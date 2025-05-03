@@ -1,4 +1,4 @@
-from game.lose_battle_command import LoseBattleCommand
+from game.commands.lose_battle_command import LoseBattleCommand
 from game.data import DATA
 
 def test_lose_battle_command_sets_in_battle_to_false():

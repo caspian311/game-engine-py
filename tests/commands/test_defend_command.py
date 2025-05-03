@@ -1,4 +1,4 @@
-from game.defend_command import DefendCommand
+from game.commands.defend_command import DefendCommand
 from game.player import Player
 
 def test_defend_commands_sets_player_to_defend():

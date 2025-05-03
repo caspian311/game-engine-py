@@ -1,5 +1,5 @@
-from game.commands import Commands, CommandProcessor
-from game.start_command import StartCommand
+from game.commands.commands import Commands, CommandProcessor
+from game.commands.start_command import StartCommand
 from game.data import DATA, GameState
 
 def test_initially_no_commands_queued():

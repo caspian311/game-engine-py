@@ -1,4 +1,4 @@
-from game.heal_command import HealCommand
+from game.commands.heal_command import HealCommand
 from game.game_engine import GameEngine
 from game.player import Player
 

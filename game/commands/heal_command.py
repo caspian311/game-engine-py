@@ -1,4 +1,4 @@
-from game.command import Command
+from game.commands.command import Command
 from game.game_engine import GameEngine
 
 class HealCommand(Command):

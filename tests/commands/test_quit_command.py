@@ -1,4 +1,4 @@
-from game.quit_command import QuitCommand
+from game.commands.quit_command import QuitCommand
 from game.data import DATA, GameState
 
 def test_quit_command_sets_state_to_quitting():

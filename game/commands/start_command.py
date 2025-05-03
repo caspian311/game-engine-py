@@ -1,5 +1,5 @@
 from game.data import DATA, GameState
-from game.command import Command
+from game.commands.command import Command
 from game.logger import log
 
 class StartCommand(Command):

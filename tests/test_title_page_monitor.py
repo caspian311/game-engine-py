@@ -2,7 +2,7 @@ import mock
 
 from game.data import DATA, GameState
 from game.title_page_monitor import TitlePageMonitor
-from game.commands import CommandProcessor, Commands
+from game.commands.commands import CommandProcessor, Commands
 
 @mock.patch.object(CommandProcessor, "queue_command")
 def test_title_page_monitor_shows_title_page_when_starting(mock_queue_command):

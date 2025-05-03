@@ -1,4 +1,4 @@
-from game.command import Command
+from game.commands.command import Command
 from game.data import DATA, GameState
 
 class QuitCommand(Command):

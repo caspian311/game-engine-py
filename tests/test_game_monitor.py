@@ -2,7 +2,7 @@ from threading import Thread
 import mock
 
 from game.game_monitor import GameMonitor
-from game.commands import Commands, CommandProcessor
+from game.commands.commands import Commands, CommandProcessor
 from game.data import DATA, GameState
 
 @mock.patch.object(CommandProcessor, "queue_command")

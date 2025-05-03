@@ -2,17 +2,17 @@ from time import sleep
 
 from game.data import DATA, GameState
 from game.logger import log
-from game.start_command import StartCommand
-from game.start_battle_command import StartBattleCommand
-from game.create_user_command import CreateUserCommand
-from game.win_battle_command import WinBattleCommand
-from game.lose_battle_command import LoseBattleCommand
-from game.quit_command import QuitCommand
-from game.physical_attack_command import PhysicalAttackCommand
-from game.magic_attack_command import MagicAttackCommand
-from game.defend_command import DefendCommand
-from game.heal_command import HealCommand
-from game.title_page_command import ShowTitlePageCommand, HideTitlePageCommand
+from game.commands.start_command import StartCommand
+from game.commands.start_battle_command import StartBattleCommand
+from game.commands.create_user_command import CreateUserCommand
+from game.commands.win_battle_command import WinBattleCommand
+from game.commands.lose_battle_command import LoseBattleCommand
+from game.commands.quit_command import QuitCommand
+from game.commands.physical_attack_command import PhysicalAttackCommand
+from game.commands.magic_attack_command import MagicAttackCommand
+from game.commands.defend_command import DefendCommand
+from game.commands.heal_command import HealCommand
+from game.commands.title_page_command import ShowTitlePageCommand, HideTitlePageCommand
 
 class Commands():
     START = "START"

@@ -1,4 +1,4 @@
-from game.create_user_command import CreateUserCommand
+from game.commands.create_user_command import CreateUserCommand
 from game.data import DATA
 
 def test_create_user_command_creates_user():

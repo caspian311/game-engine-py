@@ -1,4 +1,4 @@
-from game.start_command import StartCommand
+from game.commands.start_command import StartCommand
 from game.data import DATA, GameState
 
 def test_execute_sets_run_state():

@@ -1,4 +1,4 @@
-from game.start_battle_command import StartBattleCommand
+from game.commands.start_battle_command import StartBattleCommand
 from game.data import DATA, GameState
 
 def test_start_battle_command_adds_npcs():

@@ -1,7 +1,7 @@
 # pylint: disable=R0801
 from cursed import CursedWindow
 
-from game.commands import Commands, CommandProcessor
+from game.commands.commands import Commands, CommandProcessor
 from game.data import DATA, GameState
 
 class UserStatsWindow(CursedWindow):

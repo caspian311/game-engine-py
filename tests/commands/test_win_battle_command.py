@@ -1,4 +1,4 @@
-from game.win_battle_command import WinBattleCommand
+from game.commands.win_battle_command import WinBattleCommand
 from game.data import DATA
 
 def test_win_battle_command_sets_in_battle_state():

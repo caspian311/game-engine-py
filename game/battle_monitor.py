@@ -1,5 +1,5 @@
 from game.data import DATA, GameState
-from game.commands import Commands, CommandProcessor
+from game.commands.commands import Commands, CommandProcessor
 
 class BattleMonitor:
     def __init__(self):

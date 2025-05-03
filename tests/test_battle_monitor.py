@@ -1,7 +1,7 @@
 import mock
 
 from game.battle_monitor import BattleMonitor
-from game.commands import Commands, CommandProcessor
+from game.commands.commands import Commands, CommandProcessor
 from game.data import DATA
 from game.player import Player
 from game.player_generator import PlayerGenerator

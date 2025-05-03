@@ -1,4 +1,4 @@
-from game.command import Command
+from game.commands.command import Command
 
 class DefendCommand(Command):
     def execute(self, arguments):

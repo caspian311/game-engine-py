@@ -1,5 +1,5 @@
 from game.data import DATA
-from game.command import Command
+from game.commands.command import Command
 
 class LoseBattleCommand(Command):
     def execute(self, arguments):

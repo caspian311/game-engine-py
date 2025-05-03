@@ -1,4 +1,4 @@
-from game.magic_attack_command import MagicAttackCommand
+from game.commands.magic_attack_command import MagicAttackCommand
 from game.player import Player
 
 def test_magic_attack_reduces_the_health_of_defender_by_difference_in_magic_and_const():
