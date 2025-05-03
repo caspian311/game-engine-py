@@ -55,3 +55,21 @@ def test_battle_fourth_turn_is_back_to_user():
     turn = test_object.next_turn()
 
     assert turn == DATA.user
+
+def test_battle_go_to_next_player_when_player_is_dead():
+    goblin1 = PlayerGenerator.generate_goblin_player()
+    goblin2 = PlayerGenerator.generate_goblin_player()
+
+    DATA.user = PlayerGenerator.generate_user_player("John")
+    DATA.clear_npcs()
+    DATA.add_npc(goblin1)
+    DATA.add_npc(goblin2)
+
+    test_object = Battle()
+    test_object.next_turn()
+
+    goblin1.override_current_health(0)
+
+    turn = test_object.next_turn()
+
+    assert turn == goblin2
