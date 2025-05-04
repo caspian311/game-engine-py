@@ -3,6 +3,7 @@ from cursed import CursedWindow
 
 from game.commands.commands import Commands, CommandProcessor
 from game.data import DATA, GameState
+from game.title_page_helper import calculate_title_prompt_position, calculate_title_position
 
 class MainWindow(CursedWindow):
     X, Y = (0, 0)
@@ -42,7 +43,8 @@ class MainWindow(CursedWindow):
         cls._clear_screen(cls.WIDTH, cls.HEIGHT)
 
         if DATA.state.run_state == GameState.TITLE_PAGE:
-            cls._handle_title_page()
+            start_of_title_height = cls._handle_title_page()
+            cls._handle_title_page_prompt(start_of_title_height)
         elif not DATA.user and DATA.state.run_state == GameState.USER_CREATION:
             name = cls.getstr(5, 5, "What is your name? ")
             CommandProcessor.queue_command(Commands.CREATE_USER, [name])
@@ -125,50 +127,27 @@ class MainWindow(CursedWindow):
 
     @classmethod
     def _handle_title_page(cls):
-        start_of_title, start_of_title_height = cls._calculate_title_position()
+        start_of_title, start_of_title_height = calculate_title_position(
+                MainWindow.title_screen_content, MainWindow._middle_of_window_width(),
+                MainWindow._middle_of_window_height())
 
         for index, line in enumerate(MainWindow.title_screen_content):
             line = line.rstrip()
             cls.addstr(line, start_of_title, index + start_of_title_height)
 
+        return start_of_title_height
+
+    @classmethod
+    def _handle_title_page_prompt(cls, start_of_title_height):
         title_prompt = "Press Any Key To Start"
-        title_position, title_prompt_height = cls._calculate_title_prompt_position(
-                title_prompt, start_of_title_height)
+        title_position, title_prompt_height = calculate_title_prompt_position(
+                title_prompt, start_of_title_height, MainWindow.title_screen_content,
+                MainWindow._middle_of_window_width())
 
         cls.addstr(f"{title_prompt}", title_position, title_prompt_height)
         k = cls.getch()
         if k is not None:
             CommandProcessor.queue_command(Commands.HIDE_TITLE_PAGE, [])
-
-    @classmethod
-    def _calculate_title_prompt_position(cls, title_prompt, start_of_title_height):
-        middle_of_prompt = int(len(title_prompt) / 2)
-        middle_of_window = cls._middle_of_window_width()
-        title_position = middle_of_window - middle_of_prompt
-        title_height = len(MainWindow.title_screen_content)
-
-        title_prompt_height = start_of_title_height + title_height + 2
-        return (title_position, title_prompt_height)
-
-    @classmethod
-    def _calculate_title_position(cls):
-        return (cls._calculate_title_position_width(), cls._calculate_title_height())
-
-    @classmethod
-    def _calculate_title_position_width(cls):
-        title_width = len(MainWindow.title_screen_content[0])
-        middle_of_title = int(title_width / 2)
-        middle_of_window = cls._middle_of_window_width()
-        start_of_title = middle_of_window - middle_of_title
-        return start_of_title
-
-    @classmethod
-    def _calculate_title_height(cls):
-        title_height = len(MainWindow.title_screen_content)
-        middle_of_title_height = int(title_height / 2)
-        middle_of_window_height = cls._middle_of_window_height()
-        start_of_title_height = middle_of_window_height - middle_of_title_height
-        return start_of_title_height
 
     @classmethod
     def _clear_screen(cls, width, height):
