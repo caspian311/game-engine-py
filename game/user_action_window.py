@@ -5,7 +5,7 @@ from game.data import DATA, GameState
 
 class UserActionsWindow(CursedWindow):
     X, Y = (0, DATA.window["height"] - 10)
-    WIDTH, HEIGHT = (int(DATA.window["width"] / 2) - 1, 10)
+    WIDTH, HEIGHT = (int(DATA.window["width"] / 2) - 1, 15)
     BORDERED = True
 
     @classmethod

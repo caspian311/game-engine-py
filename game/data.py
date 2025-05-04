@@ -28,7 +28,7 @@ class UserTemplate():
 class Data():
     window = {
         "width": 240,
-        "height": 55
+        "height": 50
     }
     state = GameState()
     user = None
