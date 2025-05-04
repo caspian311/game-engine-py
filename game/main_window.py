@@ -41,8 +41,42 @@ class MainWindow(CursedWindow):
             start_of_title_height = cls._handle_title_page()
             cls._handle_title_page_prompt(start_of_title_height)
         elif not DATA.user and DATA.state.run_state == GameState.USER_CREATION:
-            name = cls.getstr(5, 5, "What is your name? ")
-            CommandProcessor.queue_command(Commands.CREATE_USER, [name])
+            if DATA.temp_user.name is None:
+                DATA.temp_user.name = cls.getstr(5, 5, "What is your name? ")
+            else:
+                cls.addstr(
+                        f"(A)ttack:      "
+                        f"{cls._display_player_attribute(DATA.temp_user.attack)}", 5, 6)
+                cls.addstr(
+                        f"(D)efense:     "
+                        f"{cls._display_player_attribute(DATA.temp_user.defense)}", 5, 7)
+                cls.addstr(
+                        f"(M)agic:       "
+                        f"{cls._display_player_attribute(DATA.temp_user.magic)}", 5, 8)
+                cls.addstr(
+                        f"(C)onsitution: "
+                        f"{cls._display_player_attribute(DATA.temp_user.constitution)}", 5, 9)
+                cls.addstr("E(x)it", 5, 10)
+                cls.addstr(
+                        f"Points remaining: {DATA.temp_user.remaining_points}", 5, 12)
+
+                k = cls.getch()
+                if k == ord('a'):
+                    DATA.temp_user.attack += 1
+                    DATA.temp_user.remaining_points -= 1
+                elif k == ord('d'):
+                    DATA.temp_user.defense += 1
+                    DATA.temp_user.remaining_points -= 1
+                elif k == ord('m'):
+                    DATA.temp_user.magic += 1
+                    DATA.temp_user.remaining_points -= 1
+                elif k == ord('c'):
+                    DATA.temp_user.constitution += 1
+                    DATA.temp_user.remaining_points -= 1
+                elif k == ord('x'):
+                    CommandProcessor.queue_command(Commands.CREATE_USER, [ DATA.temp_user.name,
+                        DATA.temp_user.attack, DATA.temp_user.defense,
+                        DATA.temp_user.magic, DATA.temp_user.constitution ])
         elif DATA.state.run_state == GameState.IN_BATTLE:
             cls._show_player()
             cls._show_npcs()
@@ -56,6 +90,13 @@ class MainWindow(CursedWindow):
 
         cls.sleep(.1)
         cls.refresh()
+
+    @classmethod
+    def _display_player_attribute(cls, val):
+        remaining = 10 - val
+        beginning = "".join(["*" for x in range(val)])
+        end = "".join(["-" for x in range(remaining)])
+        return beginning + end
 
     @classmethod
     def _show_player(cls):
