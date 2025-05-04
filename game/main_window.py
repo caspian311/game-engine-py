@@ -3,7 +3,6 @@ from cursed import CursedWindow
 
 from game.commands.commands import Commands, CommandProcessor
 from game.data import DATA, GameState
-from game.logger import log
 
 class MainWindow(CursedWindow):
     X, Y = (0, 0)
@@ -94,7 +93,6 @@ class MainWindow(CursedWindow):
         for idx, _ in enumerate(DATA.live_npcs()):
             start_goblin_width, start_goblin_height = cls._calculate_goblin_position(
                     idx, len(DATA.live_npcs()))
-            log(f"drawing goblins at {start_goblin_width}:{start_goblin_height}")
             for index, line in enumerate(MainWindow.goblins_content[idx]):
                 line = line.rstrip()
                 cls.addstr(line, start_goblin_width, start_goblin_height + index)
