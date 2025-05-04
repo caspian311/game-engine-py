@@ -14,6 +14,18 @@ class MainWindow(CursedWindow):
         for line in file:
             title_screen_content.append(line)
 
+    fighter_standing_content = []
+    with open("./artwork/fighter_standing.txt", "r", encoding="UTF-8") as file:
+        for line in file:
+            fighter_standing_content.append(line)
+
+    goblins_content = []
+    for g in range(3):
+        with open(f"./artwork/goblins0{g+1}.txt", "r", encoding="UTF-8") as file:
+            goblins_content.append([])
+            for line in file:
+                goblins_content[g].append(line)
+
     @classmethod
     def _middle_of_window_width(cls):
         return int(MainWindow.WIDTH / 2)
@@ -34,17 +46,82 @@ class MainWindow(CursedWindow):
         elif not DATA.user and DATA.state.run_state == GameState.USER_CREATION:
             name = cls.getstr(5, 5, "What is your name? ")
             CommandProcessor.queue_command(Commands.CREATE_USER, [name])
-        elif DATA.state.run_state == GameState.VICTORY:
-            cls.addstr("VICTORY!", 5, 5)
-        elif DATA.state.run_state == GameState.DEFEAT:
-            cls.addstr("DEFEAT!", 5, 5)
+        elif DATA.state.run_state == GameState.IN_BATTLE:
+            cls._show_player()
+            cls._show_npcs()
 
-        if DATA.latest_message:
-            message_start_point = cls._middle_of_window_width() - int(len(DATA.latest_message) / 2)
-            cls.addstr(f"{DATA.latest_message}", message_start_point, cls.HEIGHT - 3)
+        if DATA.state.run_state == GameState.VICTORY:
+            cls._display_status_message("VICTORY!")
+        elif DATA.state.run_state == GameState.DEFEAT:
+            cls._display_status_message("DEFEAT!")
+        elif DATA.latest_message:
+            cls._display_status_message(DATA.latest_message)
 
         cls.sleep(.1)
         cls.refresh()
+
+    @classmethod
+    def _show_player(cls):
+        start_player_width, start_player_height = cls._calculate_player_position()
+
+        for index, line in enumerate(MainWindow.fighter_standing_content):
+            line = line.rstrip()
+            cls.addstr(line, start_player_width, start_player_height + index)
+
+    @classmethod
+    def _calculate_player_position(cls):
+        return (cls._calculate_player_width(), cls._calculate_player_height())
+
+    @classmethod
+    def _calculate_player_width(cls):
+        player_width = len(MainWindow.fighter_standing_content[0])
+        middle_of_player = int(player_width / 2)
+        quarter_of_window = int(cls._middle_of_window_width() / 2)
+        start_of_player = quarter_of_window - middle_of_player
+        return start_of_player
+
+    @classmethod
+    def _calculate_player_height(cls):
+        player_height = len(MainWindow.fighter_standing_content)
+        middle_of_player = int(player_height / 2)
+        middle_of_window = cls._middle_of_window_height()
+        start_of_player = middle_of_window - middle_of_player
+        return start_of_player
+
+    @classmethod
+    def _show_npcs(cls):
+        for idx, _ in enumerate(DATA.live_npcs()):
+            start_goblin_width, start_goblin_height = cls._calculate_goblin_position(
+                    idx, len(DATA.live_npcs()))
+            for index, line in enumerate(MainWindow.goblins_content[idx]):
+                line = line.rstrip()
+                cls.addstr(line, start_goblin_width, start_goblin_height + index)
+
+
+    @classmethod
+    def _calculate_goblin_position(cls, g, max_goblins):
+        return (cls._calculate_goblin_width(g), cls._calculate_goblin_height(g, max_goblins))
+
+    @classmethod
+    def _calculate_goblin_width(cls, g):
+        goblin_width = len(MainWindow.goblins_content[g])
+        middle_of_goblin = int(goblin_width / 2)
+        quarter_of_window = int(cls._middle_of_window_width() / 2)
+        start_of_goblin = (quarter_of_window * 3) - middle_of_goblin
+        return start_of_goblin
+
+    @classmethod
+    def _calculate_goblin_height(cls, g, max_goblins):
+        goblin_height = len(MainWindow.goblins_content[g])
+        middle_of_goblin = int(goblin_height / 2)
+        middle_of_window = int((cls.HEIGHT / (max_goblins + 1)) * (g + 1))
+        start_of_goblin = middle_of_window - middle_of_goblin
+        return start_of_goblin
+
+    @classmethod
+    def _display_status_message(cls, message):
+        message_start_point = cls._middle_of_window_width() - int(len(message) / 2)
+        cls.addstr(f"{message}", message_start_point, cls.HEIGHT - 3)
 
     @classmethod
     def _handle_title_page(cls):
