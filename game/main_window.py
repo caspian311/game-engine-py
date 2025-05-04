@@ -42,60 +42,9 @@ class MainWindow(CursedWindow):
             cls._handle_title_page_prompt(start_of_title_height)
         elif not DATA.user and DATA.state.run_state == GameState.USER_CREATION:
             if DATA.temp_user.name is None:
-                DATA.temp_user.name = cls.getstr(5, 5, "What is your name? ")
+                cls._handle_player_name_selection()
             else:
-                screen_entry_width = 24
-                screen_entry_height = 9
-                starting_position_width = int(cls.WIDTH / 2) - int(screen_entry_width / 2)
-                starting_position_height = int(cls.HEIGHT / 2) - int(screen_entry_height / 2)
-
-                instructions = "Press up or down to select an attribute and + / - to modify them:"
-                cls.addstr(instructions,
-                           int(cls.WIDTH / 2) - int(len(instructions) / 2),
-                           starting_position_height)
-
-                cls.addstr("* ",
-                           starting_position_width,
-                           starting_position_height + DATA.temp_user.select_attribute_index + 2)
-
-                cls.addstr(
-                        f"Attack:      "
-                        f"{cls._display_player_attribute(DATA.temp_user.attack)}",
-                        starting_position_width + 2, starting_position_height + 2)
-                cls.addstr(
-                        f"Defense:     "
-                        f"{cls._display_player_attribute(DATA.temp_user.defense)}",
-                        starting_position_width + 2, starting_position_height + 3)
-                cls.addstr(
-                        f"Magic:       "
-                        f"{cls._display_player_attribute(DATA.temp_user.magic)}",
-                        starting_position_width + 2, starting_position_height + 4)
-                cls.addstr(
-                        f"Consitution: "
-                        f"{cls._display_player_attribute(DATA.temp_user.constitution)}",
-                        starting_position_width + 2, starting_position_height + 5)
-                cls.addstr("Type x when done",
-                            int(cls.WIDTH / 2) - 8,
-                           starting_position_height + 6)
-                cls.addstr(
-                        f"Points remaining: {DATA.temp_user.remaining_points}",
-                        int(cls.WIDTH / 2) - 8,
-                        starting_position_height + 8)
-
-                k = cls.getch()
-
-                if k == 259:
-                    cls._nav_down_attributes()
-                elif k == 258:
-                    cls._nav_up_attributes()
-                elif k in (45, 95):
-                    cls._decrease_selected_attribute()
-                elif k in (43, 61):
-                    cls._increase_selected_attribute()
-                elif k == ord('x'):
-                    CommandProcessor.queue_command(Commands.CREATE_USER, [ DATA.temp_user.name,
-                        DATA.temp_user.attack, DATA.temp_user.defense,
-                        DATA.temp_user.magic, DATA.temp_user.constitution ])
+                cls._handle_player_attribute_configuration()
         elif DATA.state.run_state == GameState.IN_BATTLE:
             cls._show_player()
             cls._show_npcs()
@@ -109,6 +58,70 @@ class MainWindow(CursedWindow):
 
         cls.sleep(.1)
         cls.refresh()
+
+    @classmethod
+    def _handle_player_name_selection(cls):
+        prompt = "What is your name? "
+        starting_position_width = int(cls.WIDTH / 2) - int(len(prompt) / 2)
+        starting_position_height = int(cls.HEIGHT / 2)
+        DATA.temp_user.name = cls.getstr(starting_position_width,
+                                         starting_position_height,
+                                         prompt)
+
+    @classmethod
+    def _handle_player_attribute_configuration(cls):
+        screen_entry_width = 24
+        screen_entry_height = 9
+        starting_position_width = int(cls.WIDTH / 2) - int(screen_entry_width / 2)
+        starting_position_height = int(cls.HEIGHT / 2) - int(screen_entry_height / 2)
+
+        instructions = "Press up or down to select an attribute and + / - to modify them:"
+        cls.addstr(instructions,
+                   int(cls.WIDTH / 2) - int(len(instructions) / 2),
+                   starting_position_height)
+
+        cls.addstr("* ",
+                   starting_position_width,
+                   starting_position_height + DATA.temp_user.select_attribute_index + 2)
+
+        cls.addstr(
+                f"Attack:      "
+                f"{cls._display_player_attribute(DATA.temp_user.attack)}",
+                starting_position_width + 2, starting_position_height + 2)
+        cls.addstr(
+                f"Defense:     "
+                f"{cls._display_player_attribute(DATA.temp_user.defense)}",
+                starting_position_width + 2, starting_position_height + 3)
+        cls.addstr(
+                f"Magic:       "
+                f"{cls._display_player_attribute(DATA.temp_user.magic)}",
+                starting_position_width + 2, starting_position_height + 4)
+        cls.addstr(
+                f"Consitution: "
+                f"{cls._display_player_attribute(DATA.temp_user.constitution)}",
+                starting_position_width + 2, starting_position_height + 5)
+        cls.addstr("Type x when done",
+                    int(cls.WIDTH / 2) - 8,
+                   starting_position_height + 6)
+        cls.addstr(
+                f"Points remaining: {DATA.temp_user.remaining_points}",
+                int(cls.WIDTH / 2) - 8,
+                starting_position_height + 8)
+
+        k = cls.getch()
+
+        if k == 259:
+            cls._nav_down_attributes()
+        elif k == 258:
+            cls._nav_up_attributes()
+        elif k in (45, 95):
+            cls._decrease_selected_attribute()
+        elif k in (43, 61):
+            cls._increase_selected_attribute()
+        elif k == ord('x'):
+            CommandProcessor.queue_command(Commands.CREATE_USER, [ DATA.temp_user.name,
+                DATA.temp_user.attack, DATA.temp_user.defense,
+                DATA.temp_user.magic, DATA.temp_user.constitution ])
 
     @classmethod
     def _nav_up_attributes(cls):
