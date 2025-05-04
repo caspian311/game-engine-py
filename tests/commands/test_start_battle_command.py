@@ -5,9 +5,11 @@ def test_start_battle_command_adds_npcs():
     DATA.clear_npcs()
     assert 0 == len(DATA.live_npcs())
 
-    StartBattleCommand().execute([])
-
-    assert len(DATA.live_npcs()) > 0
+    for _ in range(50):
+        DATA.clear_npcs()
+        StartBattleCommand().execute([])
+        assert len(DATA.live_npcs()) > 0
+        assert len(DATA.live_npcs()) < 4
 
 def test_start_battle_command_sets_in_battle_state():
     DATA.state.in_battle = False

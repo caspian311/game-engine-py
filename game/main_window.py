@@ -114,17 +114,10 @@ class MainWindow(CursedWindow):
 
     @classmethod
     def _calculate_goblin_height(cls, g, max_goblins):
-        log(f"*HEIGHT: {cls.HEIGHT}")
-        log(f"*g: {g}")
-        log(f"*max_goblins: {max_goblins}")
         goblin_height = len(MainWindow.goblins_content[g])
-        log(f"*goblin_height: {goblin_height}")
         middle_of_goblin = int(goblin_height / 2)
-        log(f"*middle_of_goblin: {middle_of_goblin}")
         middle_of_window = int((cls.HEIGHT / (max_goblins + 1)) * (g + 1))
-        log(f"*middle_of_window: {middle_of_window}")
         start_of_goblin = middle_of_window - middle_of_goblin
-        log(f"*start_of_goblin: {start_of_goblin}")
         return start_of_goblin
 
     @classmethod

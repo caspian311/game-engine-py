@@ -6,5 +6,5 @@ class CreateUserMonitor:
         pass
 
     def refresh(self):
-        if DATA.user and DATA.state.run_state != GameState.IN_BATTLE:
+        if DATA.user and DATA.state.run_state < GameState.IN_BATTLE:
             CommandProcessor.queue_command(Commands.START_BATTLE, [])
