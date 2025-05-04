@@ -44,23 +44,43 @@ class MainWindow(CursedWindow):
             if DATA.temp_user.name is None:
                 DATA.temp_user.name = cls.getstr(5, 5, "What is your name? ")
             else:
-                cls.addstr("* ", 3, DATA.temp_user.select_attribute_index + 6)
+                screen_entry_width = 24
+                screen_entry_height = 9
+                starting_position_width = int(cls.WIDTH / 2) - int(screen_entry_width / 2)
+                starting_position_height = int(cls.HEIGHT / 2) - int(screen_entry_height / 2)
+
+                instructions = "Press up or down to select an attribute and + / - to modify them:"
+                cls.addstr(instructions,
+                           int(cls.WIDTH / 2) - int(len(instructions) / 2),
+                           starting_position_height)
+
+                cls.addstr("* ",
+                           starting_position_width,
+                           starting_position_height + DATA.temp_user.select_attribute_index + 2)
 
                 cls.addstr(
                         f"Attack:      "
-                        f"{cls._display_player_attribute(DATA.temp_user.attack)}", 5, 6)
+                        f"{cls._display_player_attribute(DATA.temp_user.attack)}",
+                        starting_position_width + 2, starting_position_height + 2)
                 cls.addstr(
                         f"Defense:     "
-                        f"{cls._display_player_attribute(DATA.temp_user.defense)}", 5, 7)
+                        f"{cls._display_player_attribute(DATA.temp_user.defense)}",
+                        starting_position_width + 2, starting_position_height + 3)
                 cls.addstr(
                         f"Magic:       "
-                        f"{cls._display_player_attribute(DATA.temp_user.magic)}", 5, 8)
+                        f"{cls._display_player_attribute(DATA.temp_user.magic)}",
+                        starting_position_width + 2, starting_position_height + 4)
                 cls.addstr(
                         f"Consitution: "
-                        f"{cls._display_player_attribute(DATA.temp_user.constitution)}", 5, 9)
-                cls.addstr("Type x when done.", 5, 10)
+                        f"{cls._display_player_attribute(DATA.temp_user.constitution)}",
+                        starting_position_width + 2, starting_position_height + 5)
+                cls.addstr("Type x when done",
+                            int(cls.WIDTH / 2) - 8,
+                           starting_position_height + 6)
                 cls.addstr(
-                        f"Points remaining: {DATA.temp_user.remaining_points}", 5, 12)
+                        f"Points remaining: {DATA.temp_user.remaining_points}",
+                        int(cls.WIDTH / 2) - 8,
+                        starting_position_height + 8)
 
                 k = cls.getch()
 
