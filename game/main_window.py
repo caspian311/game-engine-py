@@ -7,6 +7,7 @@ from game.title_page_helper import (title_page_content,
                                     calculate_title_prompt_position,
                                     calculate_title_position)
 from game.player_helper import fighter_standing, calculate_player_position
+from game.goblin_helper import goblins_content, calculate_goblin_position
 
 class MainWindow(CursedWindow):
     X, Y = (0, 0)
@@ -66,36 +67,15 @@ class MainWindow(CursedWindow):
             line = line.rstrip()
             cls.addstr(line, start_player_width, start_player_height + index)
 
-
     @classmethod
     def _show_npcs(cls):
         for idx, _ in enumerate(DATA.live_npcs()):
-            start_goblin_width, start_goblin_height = cls._calculate_goblin_position(
-                    idx, len(DATA.live_npcs()))
-            for index, line in enumerate(cls.goblins_content[idx]):
+            start_goblin_width, start_goblin_height = calculate_goblin_position(
+                    idx, len(DATA.live_npcs()),
+                    cls._middle_of_window_width(), cls.HEIGHT)
+            for index, line in enumerate(goblins_content[idx]):
                 line = line.rstrip()
                 cls.addstr(line, start_goblin_width, start_goblin_height + index)
-
-
-    @classmethod
-    def _calculate_goblin_position(cls, g, max_goblins):
-        return (cls._calculate_goblin_width(g), cls._calculate_goblin_height(g, max_goblins))
-
-    @classmethod
-    def _calculate_goblin_width(cls, g):
-        goblin_width = len(cls.goblins_content[g])
-        middle_of_goblin = int(goblin_width / 2)
-        quarter_of_window = int(cls._middle_of_window_width() / 2)
-        start_of_goblin = (quarter_of_window * 3) - middle_of_goblin
-        return start_of_goblin
-
-    @classmethod
-    def _calculate_goblin_height(cls, g, max_goblins):
-        goblin_height = len(cls.goblins_content[g])
-        middle_of_goblin = int(goblin_height / 2)
-        middle_of_window = int((cls.HEIGHT / (max_goblins + 1)) * (g + 1))
-        start_of_goblin = middle_of_window - middle_of_goblin
-        return start_of_goblin
 
     @classmethod
     def _display_status_message(cls, message):
