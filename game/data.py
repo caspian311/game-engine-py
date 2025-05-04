@@ -14,15 +14,27 @@ class GameState():
     run_state = INIT
 
 @dataclass
+class UserTemplate():
+    select_attribute_index = 0
+    remaining_points = 5
+
+    name = None
+    attack = 5
+    defense = 5
+    magic = 5
+    constitution = 5
+
+@dataclass
 class Data():
     window = {
         "width": 240,
-        "height": 55
+        "height": 50
     }
     state = GameState()
     user = None
     _npcs = []
     latest_message = None
+    temp_user = UserTemplate()
 
     @classmethod
     def add_npc(cls, player):
