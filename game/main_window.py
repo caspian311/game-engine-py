@@ -3,6 +3,7 @@ from cursed import CursedWindow
 
 from game.commands.commands import Commands, CommandProcessor
 from game.data import DATA, GameState
+from game.logger import log
 
 class MainWindow(CursedWindow):
     X, Y = (0, 0)
@@ -18,6 +19,13 @@ class MainWindow(CursedWindow):
     with open("./artwork/fighter_standing.txt", "r", encoding="UTF-8") as file:
         for line in file:
             fighter_standing_content.append(line)
+
+    goblins_content = []
+    for g in range(3):
+        with open(f"./artwork/goblins0{g+1}.txt", "r", encoding="UTF-8") as file:
+            goblins_content.append([])
+            for line in file:
+                goblins_content[g].append(line)
 
     @classmethod
     def _middle_of_window_width(cls):
@@ -83,7 +91,41 @@ class MainWindow(CursedWindow):
 
     @classmethod
     def _show_npcs(cls):
-        pass
+        for idx, _ in enumerate(DATA.live_npcs()):
+            start_goblin_width, start_goblin_height = cls._calculate_goblin_position(
+                    idx, len(DATA.live_npcs()))
+            log(f"drawing goblins at {start_goblin_width}:{start_goblin_height}")
+            for index, line in enumerate(MainWindow.goblins_content[idx]):
+                line = line.rstrip()
+                cls.addstr(line, start_goblin_width, start_goblin_height + index)
+
+
+    @classmethod
+    def _calculate_goblin_position(cls, g, max_goblins):
+        return (cls._calculate_goblin_width(g), cls._calculate_goblin_height(g, max_goblins))
+
+    @classmethod
+    def _calculate_goblin_width(cls, g):
+        goblin_width = len(MainWindow.goblins_content[g])
+        middle_of_goblin = int(goblin_width / 2)
+        quarter_of_window = int(cls._middle_of_window_width() / 2)
+        start_of_goblin = (quarter_of_window * 3) - middle_of_goblin
+        return start_of_goblin
+
+    @classmethod
+    def _calculate_goblin_height(cls, g, max_goblins):
+        log(f"*HEIGHT: {cls.HEIGHT}")
+        log(f"*g: {g}")
+        log(f"*max_goblins: {max_goblins}")
+        goblin_height = len(MainWindow.goblins_content[g])
+        log(f"*goblin_height: {goblin_height}")
+        middle_of_goblin = int(goblin_height / 2)
+        log(f"*middle_of_goblin: {middle_of_goblin}")
+        middle_of_window = int((cls.HEIGHT / (max_goblins + 1)) * (g + 1))
+        log(f"*middle_of_window: {middle_of_window}")
+        start_of_goblin = middle_of_window - middle_of_goblin
+        log(f"*start_of_goblin: {start_of_goblin}")
+        return start_of_goblin
 
     @classmethod
     def _display_status_message(cls, message):
