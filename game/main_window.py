@@ -3,18 +3,15 @@ from cursed import CursedWindow
 
 from game.commands.commands import Commands, CommandProcessor
 from game.data import DATA, GameState
-from game.title_page_helper import calculate_title_prompt_position, calculate_title_position
+from game.title_page_helper import (title_page_content,
+                                    calculate_title_prompt_position,
+                                    calculate_title_position)
 from game.player_helper import fighter_standing, calculate_player_position
 
 class MainWindow(CursedWindow):
     X, Y = (0, 0)
     WIDTH, HEIGHT = (DATA.window["width"], DATA.window["height"] - 10)
     BORDERED = True
-
-    title_screen_content = []
-    with open("./artwork/title-page.txt", "r", encoding="UTF-8") as file:
-        for line in file:
-            title_screen_content.append(line)
 
 
     goblins_content = []
@@ -26,11 +23,11 @@ class MainWindow(CursedWindow):
 
     @classmethod
     def _middle_of_window_width(cls):
-        return int(MainWindow.WIDTH / 2)
+        return int(cls.WIDTH / 2)
 
     @classmethod
     def _middle_of_window_height(cls):
-        return int(MainWindow.HEIGHT / 2)
+        return int(cls.HEIGHT / 2)
 
     @classmethod
     def update(cls):
@@ -62,8 +59,8 @@ class MainWindow(CursedWindow):
     @classmethod
     def _show_player(cls):
         start_player_width, start_player_height = calculate_player_position(
-                MainWindow._middle_of_window_width(),
-                MainWindow._middle_of_window_height())
+                cls._middle_of_window_width(),
+                cls._middle_of_window_height())
 
         for index, line in enumerate(fighter_standing()):
             line = line.rstrip()
@@ -75,7 +72,7 @@ class MainWindow(CursedWindow):
         for idx, _ in enumerate(DATA.live_npcs()):
             start_goblin_width, start_goblin_height = cls._calculate_goblin_position(
                     idx, len(DATA.live_npcs()))
-            for index, line in enumerate(MainWindow.goblins_content[idx]):
+            for index, line in enumerate(cls.goblins_content[idx]):
                 line = line.rstrip()
                 cls.addstr(line, start_goblin_width, start_goblin_height + index)
 
@@ -86,7 +83,7 @@ class MainWindow(CursedWindow):
 
     @classmethod
     def _calculate_goblin_width(cls, g):
-        goblin_width = len(MainWindow.goblins_content[g])
+        goblin_width = len(cls.goblins_content[g])
         middle_of_goblin = int(goblin_width / 2)
         quarter_of_window = int(cls._middle_of_window_width() / 2)
         start_of_goblin = (quarter_of_window * 3) - middle_of_goblin
@@ -94,7 +91,7 @@ class MainWindow(CursedWindow):
 
     @classmethod
     def _calculate_goblin_height(cls, g, max_goblins):
-        goblin_height = len(MainWindow.goblins_content[g])
+        goblin_height = len(cls.goblins_content[g])
         middle_of_goblin = int(goblin_height / 2)
         middle_of_window = int((cls.HEIGHT / (max_goblins + 1)) * (g + 1))
         start_of_goblin = middle_of_window - middle_of_goblin
@@ -108,10 +105,10 @@ class MainWindow(CursedWindow):
     @classmethod
     def _handle_title_page(cls):
         start_of_title, start_of_title_height = calculate_title_position(
-                MainWindow.title_screen_content, MainWindow._middle_of_window_width(),
-                MainWindow._middle_of_window_height())
+                cls._middle_of_window_width(),
+                cls._middle_of_window_height())
 
-        for index, line in enumerate(MainWindow.title_screen_content):
+        for index, line in enumerate(title_page_content()):
             line = line.rstrip()
             cls.addstr(line, start_of_title, index + start_of_title_height)
 
@@ -121,8 +118,7 @@ class MainWindow(CursedWindow):
     def _handle_title_page_prompt(cls, start_of_title_height):
         title_prompt = "Press Any Key To Start"
         title_position, title_prompt_height = calculate_title_prompt_position(
-                title_prompt, start_of_title_height, MainWindow.title_screen_content,
-                MainWindow._middle_of_window_width())
+                title_prompt, start_of_title_height, cls._middle_of_window_width())
 
         cls.addstr(f"{title_prompt}", title_position, title_prompt_height)
         k = cls.getch()
