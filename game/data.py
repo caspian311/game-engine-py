@@ -15,12 +15,14 @@ class GameState():
 
 @dataclass
 class UserTemplate():
+    select_attribute_index = 0
+    remaining_points = 5
+
     name = None
     attack = 5
     defense = 5
     magic = 5
     constitution = 5
-    remaining_points = 5
 
 @dataclass
 class Data():

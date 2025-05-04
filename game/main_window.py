@@ -44,35 +44,34 @@ class MainWindow(CursedWindow):
             if DATA.temp_user.name is None:
                 DATA.temp_user.name = cls.getstr(5, 5, "What is your name? ")
             else:
+                cls.addstr("* ", 3, DATA.temp_user.select_attribute_index + 6)
+
                 cls.addstr(
-                        f"(A)ttack:      "
+                        f"Attack:      "
                         f"{cls._display_player_attribute(DATA.temp_user.attack)}", 5, 6)
                 cls.addstr(
-                        f"(D)efense:     "
+                        f"Defense:     "
                         f"{cls._display_player_attribute(DATA.temp_user.defense)}", 5, 7)
                 cls.addstr(
-                        f"(M)agic:       "
+                        f"Magic:       "
                         f"{cls._display_player_attribute(DATA.temp_user.magic)}", 5, 8)
                 cls.addstr(
-                        f"(C)onsitution: "
+                        f"Consitution: "
                         f"{cls._display_player_attribute(DATA.temp_user.constitution)}", 5, 9)
-                cls.addstr("E(x)it", 5, 10)
+                cls.addstr("Type x when done.", 5, 10)
                 cls.addstr(
                         f"Points remaining: {DATA.temp_user.remaining_points}", 5, 12)
 
                 k = cls.getch()
-                if k == ord('a'):
-                    DATA.temp_user.attack += 1
-                    DATA.temp_user.remaining_points -= 1
-                elif k == ord('d'):
-                    DATA.temp_user.defense += 1
-                    DATA.temp_user.remaining_points -= 1
-                elif k == ord('m'):
-                    DATA.temp_user.magic += 1
-                    DATA.temp_user.remaining_points -= 1
-                elif k == ord('c'):
-                    DATA.temp_user.constitution += 1
-                    DATA.temp_user.remaining_points -= 1
+
+                if k == 259:
+                    cls._nav_down_attributes()
+                elif k == 258:
+                    cls._nav_up_attributes()
+                elif k in (45, 95):
+                    cls._decrease_selected_attribute()
+                elif k in (43, 61):
+                    cls._increase_selected_attribute()
                 elif k == ord('x'):
                     CommandProcessor.queue_command(Commands.CREATE_USER, [ DATA.temp_user.name,
                         DATA.temp_user.attack, DATA.temp_user.defense,
@@ -90,6 +89,59 @@ class MainWindow(CursedWindow):
 
         cls.sleep(.1)
         cls.refresh()
+
+    @classmethod
+    def _nav_up_attributes(cls):
+        val = DATA.temp_user.select_attribute_index
+        val = (val + 1) % 4
+        DATA.temp_user.select_attribute_index = val
+
+    @classmethod
+    def _nav_down_attributes(cls):
+        val = DATA.temp_user.select_attribute_index
+        val = (val - 1) % 4
+        DATA.temp_user.select_attribute_index = val
+
+    @classmethod
+    def _increase_selected_attribute(cls):
+        if DATA.temp_user.remaining_points == 0:
+            return
+
+        if DATA.temp_user.select_attribute_index == 0:
+            DATA.temp_user.attack += 1
+            DATA.temp_user.remaining_points -= 1
+        elif DATA.temp_user.select_attribute_index == 1:
+            DATA.temp_user.defense += 1
+            DATA.temp_user.remaining_points -= 1
+        elif DATA.temp_user.select_attribute_index == 2:
+            DATA.temp_user.magic += 1
+            DATA.temp_user.remaining_points -= 1
+        elif DATA.temp_user.select_attribute_index == 3:
+            DATA.temp_user.constitution += 1
+            DATA.temp_user.remaining_points -= 1
+
+    @classmethod
+    def _decrease_selected_attribute(cls):
+        if DATA.temp_user.select_attribute_index == 0:
+            if DATA.temp_user.attack == 0:
+                return
+            DATA.temp_user.attack -= 1
+            DATA.temp_user.remaining_points += 1
+        elif DATA.temp_user.select_attribute_index == 1:
+            if DATA.temp_user.defense == 0:
+                return
+            DATA.temp_user.defense -= 1
+            DATA.temp_user.remaining_points += 1
+        elif DATA.temp_user.select_attribute_index == 2:
+            if DATA.temp_user.magic == 0:
+                return
+            DATA.temp_user.magic -= 1
+            DATA.temp_user.remaining_points += 1
+        elif DATA.temp_user.select_attribute_index == 3:
+            if DATA.temp_user.constitution == 0:
+                return
+            DATA.temp_user.constitution -= 1
+            DATA.temp_user.remaining_points += 1
 
     @classmethod
     def _display_player_attribute(cls, val):
