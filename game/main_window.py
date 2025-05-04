@@ -4,6 +4,7 @@ from cursed import CursedWindow
 from game.commands.commands import Commands, CommandProcessor
 from game.data import DATA, GameState
 from game.title_page_helper import calculate_title_prompt_position, calculate_title_position
+from game.player_helper import calculate_player_position
 
 class MainWindow(CursedWindow):
     X, Y = (0, 0)
@@ -64,31 +65,15 @@ class MainWindow(CursedWindow):
 
     @classmethod
     def _show_player(cls):
-        start_player_width, start_player_height = cls._calculate_player_position()
+        start_player_width, start_player_height = calculate_player_position(
+                MainWindow._middle_of_window_width(),
+                MainWindow._middle_of_window_height(),
+                MainWindow.fighter_standing_content)
 
         for index, line in enumerate(MainWindow.fighter_standing_content):
             line = line.rstrip()
             cls.addstr(line, start_player_width, start_player_height + index)
 
-    @classmethod
-    def _calculate_player_position(cls):
-        return (cls._calculate_player_width(), cls._calculate_player_height())
-
-    @classmethod
-    def _calculate_player_width(cls):
-        player_width = len(MainWindow.fighter_standing_content[0])
-        middle_of_player = int(player_width / 2)
-        quarter_of_window = int(cls._middle_of_window_width() / 2)
-        start_of_player = quarter_of_window - middle_of_player
-        return start_of_player
-
-    @classmethod
-    def _calculate_player_height(cls):
-        player_height = len(MainWindow.fighter_standing_content)
-        middle_of_player = int(player_height / 2)
-        middle_of_window = cls._middle_of_window_height()
-        start_of_player = middle_of_window - middle_of_player
-        return start_of_player
 
     @classmethod
     def _show_npcs(cls):
