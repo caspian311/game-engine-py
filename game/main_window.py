@@ -4,7 +4,7 @@ from cursed import CursedWindow
 from game.commands.commands import Commands, CommandProcessor
 from game.data import DATA, GameState
 from game.title_page_helper import calculate_title_prompt_position, calculate_title_position
-from game.player_helper import calculate_player_position
+from game.player_helper import fighter_standing, calculate_player_position
 
 class MainWindow(CursedWindow):
     X, Y = (0, 0)
@@ -16,10 +16,6 @@ class MainWindow(CursedWindow):
         for line in file:
             title_screen_content.append(line)
 
-    fighter_standing_content = []
-    with open("./artwork/fighter_standing.txt", "r", encoding="UTF-8") as file:
-        for line in file:
-            fighter_standing_content.append(line)
 
     goblins_content = []
     for g in range(3):
@@ -67,10 +63,9 @@ class MainWindow(CursedWindow):
     def _show_player(cls):
         start_player_width, start_player_height = calculate_player_position(
                 MainWindow._middle_of_window_width(),
-                MainWindow._middle_of_window_height(),
-                MainWindow.fighter_standing_content)
+                MainWindow._middle_of_window_height())
 
-        for index, line in enumerate(MainWindow.fighter_standing_content):
+        for index, line in enumerate(fighter_standing()):
             line = line.rstrip()
             cls.addstr(line, start_player_width, start_player_height + index)
 
