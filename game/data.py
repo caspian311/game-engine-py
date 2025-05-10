@@ -7,9 +7,10 @@ class GameState():
     STARTING = 1
     TITLE_PAGE = 2
     USER_CREATION = 3
-    IN_BATTLE = 4
-    VICTORY = 5
-    DEFEAT = 6
+    EXPLORING = 4
+    IN_BATTLE = 5
+    VICTORY = 6
+    DEFEAT = 7
 
     run_state = INIT
 

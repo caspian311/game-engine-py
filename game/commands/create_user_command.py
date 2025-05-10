@@ -1,4 +1,4 @@
-from game.data import DATA
+from game.data import DATA, GameState
 from game.commands.command import Command
 from game.player_generator import PlayerGenerator
 
@@ -17,3 +17,5 @@ class CreateUserCommand(Command):
             DATA.user.override_defense(player_defense)
             DATA.user.override_magic(player_magic)
             DATA.user.override_constitution(player_constitution)
+
+        DATA.state.run_state = GameState.EXPLORING

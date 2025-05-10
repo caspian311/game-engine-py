@@ -8,6 +8,7 @@ from game.title_page_helper import (title_page_content,
                                     calculate_title_position)
 from game.player_helper import fighter_standing, calculate_player_position
 from game.goblin_helper import goblins_content, calculate_goblin_position
+from game.dungeon_helper import dungeon_map
 
 class MainWindow(CursedWindow):
     X, Y = (0, 0)
@@ -45,6 +46,8 @@ class MainWindow(CursedWindow):
                 cls._handle_player_name_selection()
             else:
                 cls._handle_player_attribute_configuration()
+        elif DATA.state.run_state == GameState.EXPLORING:
+            cls._show_exploring()
         elif DATA.state.run_state == GameState.IN_BATTLE:
             cls._show_player()
             cls._show_npcs()
@@ -58,6 +61,10 @@ class MainWindow(CursedWindow):
 
         cls.sleep(.1)
         cls.refresh()
+
+    @classmethod
+    def _show_exploring(cls):
+        dungeon_map()
 
     @classmethod
     def _handle_player_name_selection(cls):
