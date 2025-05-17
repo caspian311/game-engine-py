@@ -1,64 +1,65 @@
-dungeon_content = []
+import numpy as np
+
+original_dungeon_content = []
 with open("./dungeons/dungeon01.txt", "r", encoding="UTF-8") as file:
-    for line in file:
-        split_line = list(line.rstrip().lstrip())
-        dungeon_content.append(split_line)
+    for l in file:
+        split_line = list(l.rstrip().lstrip())
+        original_dungeon_content.append(split_line)
 
-def dungeon_map():
-    return dungeon_content
+def blow_up_map(mini_map, size):
+    file_expansion = []
+    for line in mini_map:
+        line_expansion = []
 
-def player_position_in_dungeon():
-    for y in range(0, len(dungeon_map())):
-        for x in range(0, len(dungeon_map()[y])):
-            if dungeon_map()[y][x] == "*":
-                return x, y
-    return 0, 0
+        for char in line:
+            if char == " ":
+                line_expansion.append(np.array(make_grid_for_space(size)))
+            elif char == "-":
+                line_expansion.append(np.array(make_grid_for_dash(size)))
+            elif char == "|":
+                line_expansion.append(np.array(make_grid_for_pipe(size)))
 
-def player_surroundings():
-    dungeon_height = len(dungeon_map())
-    dungeon_width = len(dungeon_map()[0])
+        file_expansion.append(line_expansion)
 
-    player_x, player_y = player_position_in_dungeon()
+    return np.block(file_expansion)
 
-    start_x = max(player_x - 5, 0)
-    end_x = min(player_x + 6, dungeon_width)
+def make_grid_for_space(size):
+    grid = []
+    for _ in range(0, size):
+        row = []
 
-    start_y = max(player_y - 5, 0)
-    end_y = min(player_y + 6, dungeon_height)
+        for _ in range(0, size):
+            row.append(" ")
 
-    ret_val = []
-    lines = dungeon_map()[start_y:end_y]
+        grid.append(row)
+    return grid
 
-    for ret_line in lines:
-        ret_val.append(ret_line[start_x:end_x])
+def make_grid_for_dash(size):
+    grid = []
+    for index in range(0, size):
+        row = []
 
-    return ret_val
+        character = " "
+        if index == int(size / 2):
+            character = "-"
 
-def blow_up_player_surroundings(width, height):
-    player_surr = player_surroundings()
-    height_of_player_surroundings = len(player_surr)
-    height_scale_factor = int(height_of_player_surroundings / height)
+        for _ in range(0, size):
+            row.append(character)
 
-    width_of_player_surroundings = len(player_surr[0])
-    width_scale_factor = int(width_of_player_surroundings / height)
+        grid.append(row)
+    return grid
 
-    ret_val = [[" " for x in range(width)] for y in range(height)]
+def make_grid_for_pipe(size):
+    grid = []
+    for _ in range(0, size):
+        row = []
 
-    for y, _ in enumerate(player_surr):
-        for x, _ in enumerate(player_surr[y]):
-            character = player_surr[y][x]
-            if character == "-":
-                x_offset_start = 0
-                y_offset_start = 0
-                x_offset_range = 0
-                y_offset_range = 0
+        for index in range(0, size):
+            character = " "
+            if index == int(size / 2):
+                character = "|"
 
-                for i in range(y_offset_start, y_offset_range):
-                    for j in range(x_offset_start, x_offset_range):
-                        ret_val[i][j] = "-"
-            elif character == "|":
-                pass
+            row.append(character)
 
-
-
-    return ret_val
+        grid.append(row)
+    return grid

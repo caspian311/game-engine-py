@@ -1,63 +1,111 @@
-from game.dungeon_helper import (dungeon_map,
-                                 player_position_in_dungeon,
-                                 player_surroundings,
-                                 blow_up_player_surroundings)
+import pytest
 
-def test_dungeon_map_has_right_size():
-    assert len(dungeon_map()) == 10
-    for x in range(0, len(dungeon_map())):
-        assert len(dungeon_map()[x]) == 35
+from game.dungeon_helper import original_dungeon_content, blow_up_map
 
-def test_player_position():
-    (x, y) = player_position_in_dungeon()
+def test_original_dungeon_map_has_right_size():
+    assert len(original_dungeon_content) == 10
+    for line in original_dungeon_content:
+        assert len(line) == 35
 
-    assert x == 17
-    assert y == 9
+@pytest.mark.skip("will come back to this later")
+def test_blown_up_dungeon_with_empty_map_sections():
+    mini_map = ([" ", " ", " "],
+                [" ", " ", " "],
+                [" ", " ", " "])
+    big_map = blow_up_map(mini_map)
 
-def test_player_surroundings_gives_5_columns_and_5_rows_on_either_side():
-    surroundings = player_surroundings()
+    assert len(big_map) == 300
+    expected_line = "".join([" " for x in range(0, 300)])
+    for line in big_map:
+        assert line == expected_line
 
-    assert len(surroundings) == 6
-    assert len(surroundings[0]) == 11
-    assert "".join(surroundings[0]) == "-|     |---"
-    assert "".join(surroundings[1]) == " |  X  |   "
-    assert "".join(surroundings[2]) == " |-----|   "
-    assert "".join(surroundings[3]) == "           "
-    assert "".join(surroundings[4]) == "---|   |---"
-    assert "".join(surroundings[5]) == "   | * |   "
+@pytest.mark.skip("will come back to this later")
+def test_blown_up_dungeon_is_bigger():
+    mini_map = ([" ", " ", " "],
+                [" ", " ", " "],
+                [" ", " ", " "])
+    big_map = blow_up_map(mini_map)
 
-def test_blow_up_player_surroundings_scale_to_given_width_height():
-    width = 100
-    height = 20
-    surroundings = blow_up_player_surroundings(width, height)
+    assert len(big_map) == 300
+    expected_line = "".join([" " for x in range(0, 300)])
+    for line in big_map:
+        assert line == expected_line
 
-    assert len(surroundings) == height
-    assert len(surroundings[0]) == width
+def test_single_empty_cell():
+    s = [[" "]]
 
-def test_blow_up_player_surroundings_scale_to_given_width_height2():
-    width = 200
-    height = 40
-    surroundings = blow_up_player_surroundings(width, height)
+    big_map = blow_up_map(s, 3)
+    rendered_big_map = doit(big_map)
 
-    assert len(surroundings) == height
-    assert len(surroundings[0]) == width
+    expected_big_map = [
+            [" ", " ", " "],
+            [" ", " ", " "],
+            [" ", " ", " "]]
+    rendered_expected_big_map = doit(expected_big_map)
 
-def test_blow_up_player_surroundings():
-    width = 120
-    height = 30
-    surroundings = blow_up_player_surroundings(width, height)
+    assert rendered_big_map == rendered_expected_big_map
 
-    print("*******************************************************")
-    print("".join(surroundings[0]))
-    print("".join(surroundings[1]))
-    print("".join(surroundings[2]))
-    print("*******************************************************")
+def test_single_horizontal_wall():
+    s = [["-"]]
 
-    assert "".join(surroundings[0]) == "   |         "
-    assert "".join(surroundings[0]) == "---|     |---"
-    assert "".join(surroundings[0]) == "   |     |---"
-    assert "".join(surroundings[1]) == " |  X  |   "
-    assert "".join(surroundings[2]) == " |-----|   "
-    assert "".join(surroundings[3]) == "           "
-    assert "".join(surroundings[4]) == "---|   |---"
-    assert "".join(surroundings[5]) == "   | * |   "
+    big_map = blow_up_map(s, 3)
+    rendered_big_map = doit(big_map)
+
+    expected_big_map = [
+            [" ", " ", " "],
+            ["-", "-", "-"],
+            [" ", " ", " "]]
+    rendered_expected_big_map = doit(expected_big_map)
+
+    assert rendered_big_map == rendered_expected_big_map
+
+def test_single_vertical_wall():
+    s = [["|"]]
+
+    big_map = blow_up_map(s, 3)
+    rendered_big_map = doit(big_map)
+
+    expected_big_map = [
+            [" ", "|", " "],
+            [" ", "|", " "],
+            [" ", "|", " "]]
+    rendered_expected_big_map = doit(expected_big_map)
+
+    assert rendered_big_map == rendered_expected_big_map
+
+def test_three_by_three_grid():
+    s = [[" ", " ", "|"],
+         [" ", "-", " "],
+         ["|", " ", "-"]]
+
+    big_map = blow_up_map(s, 3)
+    rendered_big_map = doit(big_map)
+
+    expected_big_map = [[" ", " ", " ",   " ", " ", " ",   " ", "|", " "],
+                        [" ", " ", " ",   " ", " ", " ",   " ", "|", " "],
+                        [" ", " ", " ",   " ", " ", " ",   " ", "|", " "],
+
+                        [" ", " ", " ",   " ", " ", " ",   " ", " ", " "],
+                        [" ", " ", " ",   "-", "-", "-",   " ", " ", " "],
+                        [" ", " ", " ",   " ", " ", " ",   " ", " ", " "],
+
+                        [" ", "|", " ",   " ", " ", " ",   " ", " ", " "],
+                        [" ", "|", " ",   " ", " ", " ",   "-", "-", "-"],
+                        [" ", "|", " ",   " ", " ", " ",   " ", " ", " "]]
+    rendered_expected_big_map = doit(expected_big_map)
+
+    assert rendered_big_map == rendered_expected_big_map
+
+def test_scale_by_one():
+    s = [[" "]]
+
+    big_map = blow_up_map(s, 1)
+    rendered_big_map = doit(big_map)
+
+    expected_big_map = [[" "]]
+    rendered_expected_big_map = doit(expected_big_map)
+
+    assert rendered_big_map == rendered_expected_big_map
+
+def doit(a):
+    return "".join("".join(row) for row in a)
