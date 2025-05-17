@@ -7,6 +7,9 @@ with open("./dungeons/dungeon01.txt", "r", encoding="UTF-8") as file:
         original_dungeon_content.append(split_line)
 
 def blow_up_map(mini_map, size):
+    if size % 2 == 0:
+        raise ValueError(f"{size} is not odd")
+
     file_expansion = []
     for line in mini_map:
         line_expansion = []
