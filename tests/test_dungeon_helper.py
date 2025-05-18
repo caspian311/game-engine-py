@@ -1,4 +1,5 @@
-from game.dungeon_helper import original_dungeon_content, blow_up_map
+from game.dungeon_helper import (original_dungeon_content, blow_up_map,
+                                 subgrid_at_location, user_initial_location)
 
 def test_original_dungeon_map_has_right_size():
     assert len(original_dungeon_content) == 10
@@ -158,3 +159,36 @@ def test_allow_scale_by_odd_numbers():
 
 def render_map(a):
     return "\n".join("".join(row) for row in a)
+
+def test_user_initial_location_is_where_the_asterisk_is():
+    map_grid = [["*"]]
+    (x, y) = user_initial_location(map_grid)
+
+    assert x == 0
+    assert y == 0
+
+def test_user_initial_location_with_2_x_2():
+    map_grid = [[" ", " "], ["*", " "]]
+    (x, y) = user_initial_location(map_grid)
+
+    assert x == 0
+    assert y == 1
+
+def test_user_initial_location_with_3_x_3():
+    map_grid = [["-", "-", "-"],
+                ["|", "*", "|"],
+                ["-", "-", "-"]]
+    (x, y) = user_initial_location(map_grid)
+
+    assert x == 1
+    assert y == 1
+
+def test_subgrid_at_location_with_width_and_height():
+    map_grid = [["-", "-", "-"],
+                ["|", "*", "|"],
+                ["-", "-", "-"]]
+    sub_grid = subgrid_at_location(0, 0, map_grid, 3, 3)
+
+    assert len(sub_grid) == 3
+    for line in sub_grid:
+        assert len(line) == 3

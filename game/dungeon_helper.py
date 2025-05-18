@@ -8,7 +8,7 @@ with open("./dungeons/dungeon01.txt", "r", encoding="UTF-8") as file:
 
 def blow_up_map(mini_map, size):
     if size % 2 == 0:
-        raise ValueError(f"{size} is not odd")
+        raise ValueError(f"{size} must be odd")
 
     file_expansion = []
     for line in mini_map:
@@ -66,3 +66,10 @@ def make_grid_for_pipe(size):
 
         grid.append(row)
     return grid
+
+def user_initial_location(_):
+    return (0, 0)
+
+def subgrid_at_location(x, y, full_grid, width, height):
+    sub_grid = []
+    return sub_grid
