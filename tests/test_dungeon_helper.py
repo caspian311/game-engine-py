@@ -48,6 +48,16 @@ def test_single_vertical_wall():
 
     assert rendered_big_map == rendered_expected_big_map
 
+def test_blow_up_a_1_x_1_by_1():
+    s = [[" "]]
+    big_map = blow_up_map(s, 1)
+    rendered_big_map = render_map(big_map)
+
+    expected_big_map = [[" "]]
+    rendered_expected_big_map = render_map(expected_big_map)
+
+    assert rendered_big_map == rendered_expected_big_map
+
 def test_three_by_three_grid():
     s = [[" ", " ", "|"],
          [" ", "-", " "],
@@ -157,6 +167,16 @@ def test_allow_scale_by_odd_numbers():
     except ValueError:
         assert False
 
+def test_on_real_map():
+    content = []
+    with open("./dungeons/dungeon01.txt", "r", encoding="UTF-8") as file:
+        for l in file:
+            trimmed_line = l.rstrip().lstrip()
+            split_line = list(trimmed_line)
+            content.append(split_line)
+
+    blow_up_map(content, 101)
+
 def render_map(a):
     return "\n".join("".join(row) for row in a)
 
@@ -185,11 +205,26 @@ def test_user_initial_location_with_3_x_3():
     assert y == 1
 
 def test_subgrid_at_location_with_width_and_height():
-    map_grid = [["-", "-", "-"],
-                ["|", "*", "|"],
-                ["-", "-", "-"]]
-    sub_grid = subgrid_at_location(0, 0, map_grid, 3, 3)
+    map_grid = [[" ", " ", " ",  " ", " ", " ",  " ", "|", " "],
+                ["-", "-", "-",  "-", "-", "-",  " ", "|", " "],
+                [" ", " ", " ",  " ", " ", " ",  " ", "|", " "],
+
+                [" ", " ", " ",  " ", " ", " ",  " ", "|", " "],
+                [" ", " ", " ",  " ", " ", " ",  " ", "|", " "],
+                [" ", " ", " ",  " ", " ", " ",  " ", "|", " "],
+
+                [" ", " ", " ",  " ", " ", " ",  " ", "|", " "],
+                ["-", "-", "-",  " ", " ", " ",  " ", "|", " "],
+                [" ", " ", " ",  " ", " ", " ",  " ", "|", " "]]
+    sub_grid = subgrid_at_location(1, 4, map_grid, 3, 3)
 
     assert len(sub_grid) == 3
     for line in sub_grid:
         assert len(line) == 3
+
+    actual = render_map(sub_grid)
+    expected = render_map([[" ", " ", " "],
+                           [" ", " ", " "],
+                           [" ", " ", " "]])
+
+    assert actual == expected

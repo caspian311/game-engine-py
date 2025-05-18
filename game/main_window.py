@@ -8,12 +8,15 @@ from game.title_page_helper import (title_page_content,
                                     calculate_title_position)
 from game.player_helper import fighter_standing, calculate_player_position
 from game.goblin_helper import goblins_content, calculate_goblin_position
-from game.dungeon_helper import dungeon_map
+from game.dungeon_helper import (original_dungeon_content, blow_up_map,
+                                 user_initial_location, subgrid_at_location)
+
 
 class MainWindow(CursedWindow):
     X, Y = (0, 0)
     WIDTH, HEIGHT = (DATA.window["width"], DATA.window["height"] - 10)
     BORDERED = True
+    full_map = None
 
 
     goblins_content = []
@@ -64,7 +67,18 @@ class MainWindow(CursedWindow):
 
     @classmethod
     def _show_exploring(cls):
-        dungeon_map()
+        if cls.full_map is None:
+            cls._initialize_map()
+        else:
+            user_x, user_y = DATA.location_in_dungeon
+            background = subgrid_at_location(user_x, user_y, cls.full_map, cls.WIDTH, cls.HEIGHT)
+            cls.addstr(0, 0, background)
+
+    @classmethod
+    def _initialize_map(cls):
+        cls.full_map = blow_up_map(original_dungeon_content, 11)
+        user_location_x, user_location_y = user_initial_location(cls.full_map)
+        DATA.location_in_dungeon = user_location_x, user_location_y
 
     @classmethod
     def _handle_player_name_selection(cls):

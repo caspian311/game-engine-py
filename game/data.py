@@ -35,6 +35,7 @@ class Data():
     user = None
     _npcs = []
     latest_message = None
+    location_in_dungeon = -1, -1
     temp_user = UserTemplate()
 
     @classmethod
