@@ -67,8 +67,13 @@ def make_grid_for_pipe(size):
         grid.append(row)
     return grid
 
-def user_initial_location(_):
-    return (0, 0)
+def user_initial_location(map_grid):
+    for y, line in enumerate(map_grid):
+        for x, character in enumerate(line):
+            if character == "*":
+                return x, y
+
+    return 0, 0
 
 def subgrid_at_location(x, y, full_grid, width, height):
     sub_grid = []

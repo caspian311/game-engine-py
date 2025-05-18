@@ -168,7 +168,8 @@ def test_user_initial_location_is_where_the_asterisk_is():
     assert y == 0
 
 def test_user_initial_location_with_2_x_2():
-    map_grid = [[" ", " "], ["*", " "]]
+    map_grid = [[" ", " "],
+                ["*", " "]]
     (x, y) = user_initial_location(map_grid)
 
     assert x == 0
