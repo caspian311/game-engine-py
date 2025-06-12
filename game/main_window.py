@@ -9,7 +9,8 @@ from game.title_page_helper import (title_page_content,
 from game.player_helper import fighter_standing, calculate_player_position
 from game.goblin_helper import goblins_content, calculate_goblin_position
 from game.dungeon_helper import (original_dungeon_content, blow_up_map,
-                                 user_initial_location, subgrid_at_location)
+                                 user_initial_location, subgrid_at_location,
+                                 render_map)
 
 
 class MainWindow(CursedWindow):
@@ -71,12 +72,13 @@ class MainWindow(CursedWindow):
             cls._initialize_map()
         else:
             user_x, user_y = DATA.location_in_dungeon
-            background = subgrid_at_location(user_x, user_y, cls.full_map, cls.WIDTH, cls.HEIGHT)
-            cls.addstr(0, 0, background)
+            subgrid = subgrid_at_location(user_x, user_y, cls.full_map, cls.WIDTH-1, cls.HEIGHT-2)
+            background = render_map(subgrid)
+            cls.addstr(background, 0, 0)
 
     @classmethod
     def _initialize_map(cls):
-        cls.full_map = blow_up_map(original_dungeon_content, 11)
+        cls.full_map = blow_up_map(original_dungeon_content, 5)
         user_location_x, user_location_y = user_initial_location(cls.full_map)
         DATA.location_in_dungeon = user_location_x, user_location_y
 

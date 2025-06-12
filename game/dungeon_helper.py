@@ -1,4 +1,7 @@
 import numpy as np
+import math
+
+from game.logger import log
 
 original_dungeon_content = []
 with open("./dungeons/dungeon01.txt", "r", encoding="UTF-8") as file:
@@ -16,12 +19,14 @@ def blow_up_map(mini_map, size):
         line_expansion = []
 
         for char in line:
-            if char in [" ", "*", "#", "X"]:
+            if char in [" ", "#", "X"]:
                 line_expansion.append(np.array(make_grid_for_space(size)))
             elif char == "-":
                 line_expansion.append(np.array(make_grid_for_dash(size)))
             elif char == "|":
                 line_expansion.append(np.array(make_grid_for_pipe(size)))
+            if char == "*":
+                line_expansion.append(np.array(make_grid_for_user(size)))
 
         file_expansion.append(line_expansion)
 
@@ -35,6 +40,21 @@ def make_grid_for_space(size):
 
         for _ in range(0, size):
             row.append(" ")
+
+        grid.append(row)
+    return grid
+
+def make_grid_for_user(size):
+    grid = []
+    for i in range(0, size):
+        row = []
+
+        for j in range(0, size):
+            if i == int(size / 2) and j == int(size / 2):
+                character = "*"
+            else:
+                character = " "
+            row.append(character)
 
         grid.append(row)
     return grid
@@ -74,12 +94,28 @@ def user_initial_location(map_grid):
     return 0, 0
 
 def subgrid_at_location(x, y, full_grid, width, height):
-    starting_x = x - int(width / 2)
-    starting_y = y - int(height / 2)
+    starting_x = x - math.floor(width / 2)
+    starting_y = y - math.floor(height / 2)
+    ending_x = starting_x + width
+    ending_y = starting_y + height
 
     sub_grid = []
-    for i in range(starting_y, starting_y + height):
-        row = full_grid[i][starting_x:starting_x + width]
+    for i in range(starting_y, ending_y):
+        row = []
+        for j in range(starting_x, ending_x):
+            character = fetch_char_in_grid(full_grid, i, j)
+            row.append(character)
         sub_grid.append(row)
 
     return sub_grid
+
+def fetch_char_in_grid(full_grid, i, j):
+    try:
+        c = full_grid[i][j]
+        print(f"fetching: {i}, {j} = {c}")
+        return c
+    except(IndexError):
+        return ' '
+
+def render_map(a):
+    return "\n".join("".join(row) for row in a)

@@ -1,5 +1,6 @@
 from game.dungeon_helper import (original_dungeon_content, blow_up_map,
-                                 subgrid_at_location, user_initial_location)
+                                 subgrid_at_location, user_initial_location,
+                                 render_map)
 
 def test_original_dungeon_map_has_right_size():
     assert len(original_dungeon_content) == 10
@@ -177,9 +178,6 @@ def test_on_real_map():
 
     blow_up_map(content, 101)
 
-def render_map(a):
-    return "\n".join("".join(row) for row in a)
-
 def test_user_initial_location_is_where_the_asterisk_is():
     map_grid = [["*"]]
     (x, y) = user_initial_location(map_grid)
@@ -204,7 +202,7 @@ def test_user_initial_location_with_3_x_3():
     assert x == 1
     assert y == 1
 
-def test_subgrid_at_location_with_width_and_height():
+def test_subgrid_at_location_with_width_and_height_1():
     map_grid = [[" ", " ", " ",  " ", " ", " ",  " ", "|", " "],
                 ["-", "-", "-",  "-", "-", "-",  " ", "|", " "],
                 [" ", " ", " ",  " ", " ", " ",  " ", "|", " "],
@@ -226,5 +224,30 @@ def test_subgrid_at_location_with_width_and_height():
     expected = render_map([[" ", " ", " "],
                            [" ", " ", " "],
                            [" ", " ", " "]])
+
+    assert actual == expected
+
+def test_subgrid_at_location_with_width_and_height_2():
+    map_grid = [[" ", " ", " ",  " ", " ", " ",  " ", "|", " "],
+                ["-", "-", "-",  "-", "-", "-",  " ", "|", " "],
+                [" ", " ", " ",  " ", " ", " ",  " ", "|", " "],
+
+                [" ", " ", " ",  " ", " ", " ",  " ", "|", " "],
+                [" ", " ", " ",  " ", " ", " ",  " ", "|", " "],
+                [" ", " ", " ",  " ", " ", " ",  " ", "|", " "],
+
+                [" ", " ", " ",  " ", " ", " ",  " ", "|", " "],
+                ["-", "-", "-",  " ", " ", " ",  " ", "|", " "],
+                [" ", " ", " ",  " ", " ", " ",  " ", "|", " "]]
+    sub_grid = subgrid_at_location(7, 4, map_grid, 3, 3)
+
+    assert len(sub_grid) == 3
+    for line in sub_grid:
+        assert len(line) == 3
+
+    actual = render_map(sub_grid)
+    expected = render_map([[" ", "|", " "],
+                           [" ", "|", " "],
+                           [" ", "|", " "]])
 
     assert actual == expected
