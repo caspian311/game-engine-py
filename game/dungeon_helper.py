@@ -1,7 +1,5 @@
-import numpy as np
 import math
-
-from game.logger import log
+import numpy as np
 
 original_dungeon_content = []
 with open("./dungeons/dungeon01.txt", "r", encoding="UTF-8") as file:
@@ -111,10 +109,8 @@ def subgrid_at_location(x, y, full_grid, width, height):
 
 def fetch_char_in_grid(full_grid, i, j):
     try:
-        c = full_grid[i][j]
-        print(f"fetching: {i}, {j} = {c}")
-        return c
-    except(IndexError):
+        return full_grid[i][j]
+    except IndexError:
         return ' '
 
 def render_map(a):

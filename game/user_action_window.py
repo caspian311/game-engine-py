@@ -2,6 +2,8 @@
 from cursed import CursedWindow
 
 from game.data import DATA, GameState
+from game.commands.commands import Commands, CommandProcessor
+from game.movement import Movement
 
 class UserActionsWindow(CursedWindow):
     X, Y = (0, DATA.window["height"] - 10)
@@ -31,6 +33,17 @@ class UserActionsWindow(CursedWindow):
                 DATA.user.set_turn('d')
             elif k == ord('h'):
                 DATA.user.set_turn('h')
+        elif DATA.state.run_state == GameState.EXPLORING:
+            k = cls.getch()
+
+            if k == 258:
+                CommandProcessor.queue_command(Commands.MOVE_USER, Movement.DOWN)
+            elif k == 259:
+                CommandProcessor.queue_command(Commands.MOVE_USER, Movement.UP)
+            elif k == 260:
+                CommandProcessor.queue_command(Commands.MOVE_USER, Movement.LEFT)
+            elif k == 261:
+                CommandProcessor.queue_command(Commands.MOVE_USER, Movement.RIGHT)
 
         cls.sleep(.1)
         cls.refresh()

@@ -13,6 +13,7 @@ from game.commands.magic_attack_command import MagicAttackCommand
 from game.commands.defend_command import DefendCommand
 from game.commands.heal_command import HealCommand
 from game.commands.title_page_command import ShowTitlePageCommand, HideTitlePageCommand
+from game.commands.move_user_command import MoveUserCommand
 
 class Commands():
     START = "START"
@@ -27,6 +28,7 @@ class Commands():
     HEAL = "HEAL"
     WIN_BATTLE = "WIN_BATTLE"
     LOSE_BATTLE = "LOSE_BATTLE"
+    MOVE_USER = "MOVE_USER"
 
     all_commands = {
         START: StartCommand(),
@@ -40,7 +42,8 @@ class Commands():
         DEFEND: DefendCommand(),
         HEAL: HealCommand(),
         WIN_BATTLE: WinBattleCommand(),
-        LOSE_BATTLE: LoseBattleCommand()
+        LOSE_BATTLE: LoseBattleCommand(),
+        MOVE_USER: MoveUserCommand()
     }
 
     @classmethod
