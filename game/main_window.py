@@ -1,6 +1,7 @@
 # pylint: disable=R0801
 from cursed import CursedWindow
 
+from game.logger import log
 from game.commands.commands import Commands, CommandProcessor
 from game.data import DATA, GameState
 from game.title_page_helper import (title_page_content,
@@ -72,9 +73,11 @@ class MainWindow(CursedWindow):
             cls._initialize_map()
         else:
             user_x, user_y = DATA.location_in_dungeon
-            subgrid = subgrid_at_location(user_x, user_y, cls.full_map, cls.WIDTH-1, cls.HEIGHT-2)
+            subgrid = subgrid_at_location(user_x, user_y, cls.full_map, cls.WIDTH-5, cls.HEIGHT-3)
             background = render_map(subgrid)
-            cls.addstr(background, 0, 0)
+            starting_line_num = 1
+            for i, line in enumerate(background.splitlines()):
+                cls.addstr(line, 1, starting_line_num + i)
 
     @classmethod
     def _initialize_map(cls):
